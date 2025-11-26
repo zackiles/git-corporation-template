@@ -1,0 +1,6 @@
+This directory stores signed shareholder documents for 2025.
+
+Expected files:
+- Signed meeting minutes
+- Signed resolutions
+- Proxy forms

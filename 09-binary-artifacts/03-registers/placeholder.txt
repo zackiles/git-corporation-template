@@ -1,0 +1,6 @@
+This directory stores signed register documents.
+
+Expected files:
+- Property deeds
+- Lease agreements
+- ISC registration documents

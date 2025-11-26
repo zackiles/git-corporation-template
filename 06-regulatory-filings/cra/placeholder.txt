@@ -1,0 +1,11 @@
+This directory contains CRA filing records.
+
+Suggested organization:
+- YYYY-t2-corporate-tax/
+- YYYY-hst-returns/
+- YYYY-payroll-filings/
+
+Each filing should:
+- Reference the filing date
+- Link to confirmation in 09-binary-artifacts/
+- Note the fiscal period covered

@@ -1,0 +1,4 @@
+This directory stores business receipts for 2025.
+
+Naming format: YYYY-MM-DD-vendor-description.pdf
+Example: 2025-03-15-staples-office-supplies.pdf

@@ -1,0 +1,9 @@
+This directory contains initial organizational resolutions.
+
+Expected files:
+- Initial Directors Resolution
+- Organizational (First) Resolution
+- Founder Share Issuance Resolution
+- General Authorization to Issue Shares
+
+Signed PDFs should be stored in: 09-binary-artifacts/01-formation/organizational-resolutions/

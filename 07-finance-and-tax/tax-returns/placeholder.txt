@@ -1,0 +1,12 @@
+This directory contains tax return filing records.
+
+Organize by fiscal year:
+- YYYY/
+  - t2-summary.md
+  - hst-returns.md
+
+Each summary should:
+- Reference the fiscal period
+- Note key figures (taxable income, tax payable)
+- Link to filed returns in 09-binary-artifacts/
+- Note filing date and confirmation

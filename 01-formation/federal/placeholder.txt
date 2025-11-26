@@ -1,0 +1,8 @@
+This directory contains federal incorporation documents.
+
+Expected files:
+- Articles of Incorporation
+- Certificate of Incorporation
+- Federal notices and filings
+
+Signed PDFs should be stored in: 09-binary-artifacts/01-formation/federal/

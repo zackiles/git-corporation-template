@@ -1,0 +1,4 @@
+# Corporate binary artifacts - use Git LFS
+corporation/09-binary-artifacts/** filter=lfs diff=lfs merge=lfs -text
+
+* text=auto

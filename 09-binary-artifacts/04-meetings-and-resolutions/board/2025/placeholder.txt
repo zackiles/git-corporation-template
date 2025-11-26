@@ -1,0 +1,6 @@
+This directory stores signed board documents for 2025.
+
+Expected files:
+- Signed meeting minutes
+- Signed resolutions
+- Supporting documents

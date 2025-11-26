@@ -1,0 +1,7 @@
+This directory stores capitalization documents.
+
+Expected files:
+- Share certificates (signed)
+- Subscription agreements (signed)
+- Option agreements (signed)
+- ESOP plan (signed)

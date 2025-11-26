@@ -1,0 +1,9 @@
+This directory contains business licenses and permits.
+
+Create files using format: license-type-YYYY.md
+
+Each file should:
+- Describe the license/permit
+- Note issue and expiry dates
+- Link to copy in 09-binary-artifacts/
+- Track renewal requirements

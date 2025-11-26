@@ -1,0 +1,8 @@
+This directory contains Ontario annual return filings.
+
+Create files using format: YYYY-ontario-annual-return.md
+
+Each file should:
+- Reference the filing date
+- Link to confirmation PDF in 09-binary-artifacts/
+- Note any changes reported

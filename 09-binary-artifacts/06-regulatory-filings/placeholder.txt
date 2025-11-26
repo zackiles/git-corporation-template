@@ -1,0 +1,7 @@
+This directory stores regulatory filing confirmations.
+
+Expected files:
+- Annual return confirmations
+- Notice filing confirmations
+- CRA correspondence
+- License copies

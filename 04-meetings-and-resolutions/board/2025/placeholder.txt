@@ -1,0 +1,7 @@
+This directory will contain board meetings and resolutions for 2025.
+
+Create meeting folders using the format: YYYY-MM-DD-short-description/
+
+Each meeting folder should contain:
+- minutes.md
+- resolutions/ (folder with individual resolution files)

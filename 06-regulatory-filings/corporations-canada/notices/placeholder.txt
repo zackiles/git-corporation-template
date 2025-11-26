@@ -1,0 +1,13 @@
+This directory contains notices filed with Corporations Canada.
+
+Types of notices:
+- Notice of Change of Directors
+- Notice of Change of Registered Office
+- Notice of Change of Address of Directors
+
+Create files using format: YYYY-MM-DD-notice-type.md
+
+Each file should link to:
+- The filed notice in 09-binary-artifacts/
+- Related resolution in 04-meetings-and-resolutions/
+- Updated register in 03-registers/

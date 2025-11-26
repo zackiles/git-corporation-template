@@ -1,0 +1,7 @@
+This directory stores financial and tax documents.
+
+Expected files:
+- Financial statements (signed)
+- Auditor reports
+- Tax returns (filed copies)
+- Bank agreements

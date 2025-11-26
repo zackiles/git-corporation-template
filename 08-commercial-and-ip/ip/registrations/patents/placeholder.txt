@@ -1,0 +1,10 @@
+This directory contains patent registration records.
+
+For each patent, create a file including:
+- Patent title
+- Patent number
+- Filing date
+- Issue date
+- Inventors
+- Maintenance fee dates
+- Link to patent document in 09-binary-artifacts/

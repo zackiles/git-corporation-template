@@ -1,0 +1,9 @@
+This directory contains trademark registration records.
+
+For each trademark, create a file including:
+- Trademark description
+- Registration number
+- Registration date
+- Renewal dates
+- Classes covered
+- Link to certificate in 09-binary-artifacts/

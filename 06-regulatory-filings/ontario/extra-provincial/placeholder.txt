@@ -1,0 +1,8 @@
+This directory contains Ontario extra-provincial registration documents.
+
+Expected files:
+- Initial Return (Form 2)
+- Extra-Provincial Licence confirmation
+- Subsequent amendments
+
+Create files using format: YYYY-MM-DD-description.md

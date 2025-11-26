@@ -1,0 +1,10 @@
+This directory will contain shareholder meetings and resolutions for 2025.
+
+Create meeting folders using the format: YYYY-MM-DD-short-description/
+
+Each meeting folder should contain:
+- minutes.md
+- resolutions/ (folder with individual resolution files)
+
+Annual General Meeting (AGM) should be held within 15 months of incorporation
+and annually thereafter within 15 months of the previous AGM.

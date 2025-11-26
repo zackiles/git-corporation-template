@@ -1,0 +1,6 @@
+This directory stores signed constating documents.
+
+Expected files:
+- Shareholders agreements (signed)
+- Policy documents (signed)
+- Amendments (signed)

@@ -1,0 +1,8 @@
+This directory contains Ontario extra-provincial registration documents.
+
+Expected files:
+- Extra-Provincial Licence
+- Registration confirmations
+- Provincial notices
+
+Signed PDFs should be stored in: 09-binary-artifacts/01-formation/ontario-extra-provincial/

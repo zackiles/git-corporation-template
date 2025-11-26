@@ -1,0 +1,7 @@
+This directory stores commercial and IP documents.
+
+Expected files:
+- Executed contracts
+- IP assignment agreements (signed)
+- Trademark/patent certificates
+- Employee agreements (signed)
