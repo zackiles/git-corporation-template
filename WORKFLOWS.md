@@ -2,7 +2,7 @@
 
 > **Navigation Index**: This document provides step-by-step workflows for common corporate actions. Each workflow links to relevant templates and registers.
 
-> **AI Agents**: The `workflows` object in `secretary-context.json` contains a machine-readable version of these workflows with dependency graphs.
+> **AI Agents**: Start with `AGENTS.md` for discovery instructions. The `workflows` object in `secretary-context.json` contains a machine-readable version of these workflows with dependency graphs.
 
 ---
 

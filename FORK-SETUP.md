@@ -1,12 +1,13 @@
 # Post-Fork Setup Guide
 
-> **Quick Start**: After forking/cloning, run `npm run setup` to initialize your corporate minute book.
+> **Quick Start**: After forking/cloning, run `npm run setup` to initialize your AI-powered corporate minute book.
 
 ## Prerequisites
 
 - Node.js 18 or later
 - Git with Git LFS installed
 - Your corporation's incorporation documents (PDFs or screenshots)
+- An AI agent tool: Cursor, Claude Code, or any `AGENTS.md`-compatible tool (recommended)
 
 ## Setup Steps
 
@@ -115,9 +116,23 @@ If you prefer not to use the setup script:
 
 5. Add your initial director to `03-registers/directors-register.csv`
 
-## Configuring AI Secretary
+## Using Your AI Secretary
 
-For AI agents (e.g., Cursor background agents):
+After setup, your repository is ready for AI-powered corporate governance.
+
+### Automatic Discovery (Recommended)
+
+AI tools supporting the `AGENTS.md` standard will automatically discover instructions:
+
+| Tool | How It Works |
+|------|--------------|
+| **Cursor** | Opens repo, auto-reads `AGENTS.md` |
+| **Claude Code** | Opens repo, auto-reads `AGENTS.md` |
+| **Other agents** | Point to `AGENTS.md` or `secretary-context.json` |
+
+### Manual Configuration
+
+For agents without `AGENTS.md` support:
 
 1. Point the agent to `secretary-context.json` as the primary context file
 2. Use `SECRETARY.md` for detailed operational instructions
@@ -126,6 +141,7 @@ For AI agents (e.g., Cursor background agents):
 Example system prompt:
 ```
 You are the corporate secretary for [Corporation Name].
+Read AGENTS.md for instructions.
 Load secretary-context.json for structured repository context.
 Follow SECRETARY.md for operational guidelines.
 Use WORKFLOWS.md for step-by-step procedures.

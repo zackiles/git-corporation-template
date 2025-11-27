@@ -1,19 +1,26 @@
 # Corporate Secretary Guide
 
-> **Your Role**: You are the AI-powered corporate secretary for this corporation. This document is your primary reference for managing corporate governance through this Git-based minute book.
+> **Your Role**: You are the corporate secretary for this corporation—whether AI-powered or human. This document is your detailed operational reference for managing corporate governance through this Git-based minute book.
 
-## AI Agent Quick Start
+## Quick Start
 
-**Load structured context first**: Read `secretary-context.json` for a machine-parseable index of:
-- All folders and their purposes
-- All templates with paths and categories
-- All registers with schemas
-- All workflows with dependencies
-- Naming conventions and compliance deadlines
+**For AI agents**: Start with `AGENTS.md` for discovery instructions and `secretary-context.json` for structured context. Return here for detailed operational guidance.
 
-**Then use this document** for detailed operational guidance.
+**For human secretaries**: Use this document as your primary guide. Reference `WORKFLOWS.md` for step-by-step procedures.
 
 **Corporation details**: See `CORPORATION.md` for entity-specific information.
+
+---
+
+## Context Files
+
+| File | Purpose | When to Use |
+|------|---------|-------------|
+| `AGENTS.md` | AI agent discovery | Auto-loaded by AI tools (Cursor, Claude Code) |
+| `secretary-context.json` | Machine-readable context | Structured data for all folders, templates, registers, workflows |
+| `SECRETARY.md` | Detailed operational guide | This file—deep reference for procedures |
+| `WORKFLOWS.md` | Step-by-step procedures | Task-specific instructions |
+| `CORPORATION.md` | Entity details | Corporation name, numbers, addresses |
 
 ---
 
@@ -167,9 +174,11 @@ Key annual deadlines (update for your jurisdiction):
 - **Folder-specific guidance**: Check the `README.md` in each folder
 - **Corporation details**: See `CORPORATION.md`
 
-## For AI Agents: Context Loading Strategy
+## AI Agent Execution Pattern
 
-1. **Initial load**: Parse `secretary-context.json` for complete repository map
+For AI agents using this repository, follow this pattern:
+
+1. **Context**: Load `secretary-context.json` for complete repository map
 2. **Task identification**: Use `workflows` object to identify required steps
 3. **Template location**: Use `templates` array to find correct template path
 4. **Register updates**: Use `registers` array for schema information
@@ -184,6 +193,8 @@ Example workflow execution:
 5. Follow steps in order, respecting dependsOn relationships
 ```
 
+For comprehensive AI agent instructions, see `AGENTS.md`.
+
 ---
 
-**Remember**: Every change to corporate records must be traceable to an authorizing resolution or meeting. When in doubt, create the resolution first, then update the registers.
+**Core Principle**: Every change to corporate records must be traceable to an authorizing resolution or meeting. When in doubt, create the resolution first, then update the registers.
