@@ -1,191 +1,255 @@
 # Template Repository Maintainers Guide
 
-> **Your Role**: You are developing and maintaining this template repository that others will fork for their corporations. This document is your reference for contributing to the template itself.
+> **Your Role**: You are developing and maintaining this template repository that others will fork for their corporations.
 
-## Context: Template Repo vs. Forked Repo
+## Quick Reference
 
-This repository serves two distinct contexts:
+| File | Purpose | Edit Frequency |
+|------|---------|----------------|
+| `VERSION` | Semantic version of template | On release |
+| `secretary-context.json` | AI agent context (stub) | When structure changes |
+| `setup.mjs` | Initialization script | When setup flow changes |
+| `SECRETARY.md` | Secretary operating guide | When workflows change |
+| `WORKFLOWS.md` | Task procedures | When adding/changing workflows |
 
-| Context | Users | Purpose |
-|---------|-------|---------|
-| **Template Repo** (this) | Maintainers, contributors | Improving templates, guides, and structure |
-| **Forked Repo** | Corporate secretaries, AI agents | Managing a real corporation's minute book |
+## Context: Template vs. Forked Repos
 
-**Your work here shapes the experience of every fork.** Changes you make will propagate to new forks but not existing ones.
+| Aspect | Template Repo | Forked Repo |
+|--------|---------------|-------------|
+| **State** | Uninitialized | Initialized |
+| **`.initialized` marker** | Absent | Present |
+| **`secretary-context.json`** | Stub (nulls) | Populated |
+| **`CORPORATION.md`** | Placeholder | Filled in |
+| **`README.md`** | GitHub-focused | Secretary-focused |
+| **`MAINTAINERS.md`** | Present | Archived |
+| **`FORK-SETUP.md`** | Present | Archived |
 
-## Repository Architecture
+## Versioning Strategy
 
-### Folder Structure Philosophy
+### Semantic Versioning
+
+The `VERSION` file contains the current template version:
 
 ```
-01-formation/          # One-time setup (incorporation)
-02-constating-documents/   # Foundational docs (rarely changed)
-03-registers/          # Authoritative records (frequently updated)
-04-meetings-and-resolutions/  # Ongoing governance (most activity)
-05-capitalization/     # Equity management
-06-regulatory-filings/ # Compliance
-07-finance-and-tax/    # Financial governance
-08-commercial-and-ip/  # Business operations
-09-binary-artifacts/   # Signed documents (Git LFS)
-99-meta/               # Meta-documentation
+MAJOR.MINOR.PATCH
 ```
 
-### File Type Conventions
+- **MAJOR**: Breaking changes to structure, workflows, or register schemas
+- **MINOR**: New templates, workflows, or features (backward compatible)
+- **PATCH**: Bug fixes, documentation improvements
 
-| Type | Naming | Purpose | Edit in Fork? |
-|------|--------|---------|---------------|
-| **Templates** | `_*.md` | Copied and customized | Copy, don't edit original |
-| **Stubs** | `*.csv`, `*.md` (in registers) | Edited directly | Yes |
-| **Guides** | `README.md`, `placeholder.txt` | Documentation | Rarely |
-| **Personas** | `SECRETARY.md`, `MAINTAINERS.md` | Entry points | No (delete MAINTAINERS in fork) |
-| **Workflows** | `WORKFLOWS.md` | Task index | Reference only |
+### Version Bump Checklist
 
-### Why Templates Use Underscore Prefix
+1. Update `VERSION` file
+2. Update `version` in `package.json`
+3. Update `version` in `secretary-context.json`
+4. Document changes in release notes
+5. Tag release: `git tag v1.2.3`
 
-Templates are prefixed with `_` (e.g., `_board-resolution-template.md`) because:
-1. They sort first in file listings, making them easy to find
-2. The underscore signals "don't edit me directly"
-3. AI agents can easily identify templates via glob pattern `_*.md`
+### Breaking Changes
 
-## Contributing Guidelines
+If you make breaking changes:
+1. Document migration steps
+2. Consider providing a migration script
+3. Update setup.mjs if initialization flow changes
 
-### Adding a New Template
+## Secretary Context File
 
-1. **Location**: Place in the appropriate `0000-templates/` folder or alongside related files
-2. **Naming**: Use `_[description]-template.md` format
-3. **Header**: Include the standard template warning:
-   ```markdown
-   > **TEMPLATE – NOT LEGAL ADVICE**
-   >
-   > This is a skeleton template. Consult qualified legal counsel.
-   ```
-4. **Placeholders**: Use `[BRACKETED_PLACEHOLDERS]` for values to fill in
-5. **Links**: Include "Related Documents" section pointing to related templates
-6. **Index**: Add to `WORKFLOWS.md` template index
+### Purpose
 
-### Modifying Existing Templates
+`secretary-context.json` provides AI agents with structured context:
+- Folder index with descriptions
+- Template paths and categories
+- Register schemas
+- Workflow graphs with dependencies
+- Naming conventions
+- Compliance deadlines
 
-1. Consider backward compatibility—existing forks won't get your changes
-2. Document breaking changes in commit message
-3. Update any READMEs that reference the template
+### Maintaining the Context File
 
-### Updating Guides (README files)
+The context file exists in two states:
 
-Each folder's README should follow this structure:
-```markdown
-# [Folder Name]
+1. **Template state** (in this repo): Stub with `initialized: false` and null corporation data
+2. **Initialized state** (after setup): Populated with specific corporation data
 
-Brief description (1-2 sentences).
+When you change repository structure:
 
-## Contents
-- List of subfolders and key files
+1. Update `secretary-context.json` (the stub)
+2. Update the generation functions in `setup.mjs`:
+   - `generateFolderIndex()`
+   - `generateTemplateIndex()`
+   - `generateRegisterIndex()`
+   - `generateWorkflowGraph()`
+3. Ensure both sources match
 
-## [Folder-Specific Sections]
-- Purpose, workflows, conventions
+### Adding New Templates
 
-## Related
-- Links to related folders/docs
-- Breadcrumb back to parent or WORKFLOWS.md
-```
+1. Create the template file with `_` prefix
+2. Add entry to `templates` array in `secretary-context.json`
+3. Add entry to `generateTemplateIndex()` in `setup.mjs`
+4. Update `WORKFLOWS.md` with usage instructions
+5. Update folder README with reference
+
+### Adding New Registers
+
+1. Create CSV file with header row
+2. Add schema to `03-registers/README.md`
+3. Add entry to `registers` array in `secretary-context.json`
+4. Add entry to `generateRegisterIndex()` in `setup.mjs`
 
 ### Adding New Workflows
 
-1. Document in `WORKFLOWS.md` under appropriate section
-2. Include:
-   - Step-by-step instructions
-   - Required templates (linked)
-   - Affected registers
-   - Example branch name and commit message
+1. Document in `WORKFLOWS.md`
+2. Add to `workflows` object in `secretary-context.json`
+3. Add to `generateWorkflowGraph()` in `setup.mjs`
 
-## Testing Your Changes
+## Setup Script
 
-### Checklist Before PR
+### How It Works
+
+`setup.mjs` transforms a forked repo from template state to initialized state:
+
+```
+Template State                    Initialized State
+─────────────────                 ─────────────────
+README.md (GitHub-focused)   →    README.md (secretary-focused)
+MAINTAINERS.md               →    .template-archive/MAINTAINERS.md
+FORK-SETUP.md                →    .template-archive/FORK-SETUP.md
+.template-repo               →    .template-archive/.template-repo
+secretary-context.json (stub) →   secretary-context.json (populated)
+CORPORATION.md (placeholder) →    CORPORATION.md (filled)
+directors-register.csv (empty) →  directors-register.csv (initial director)
+(no marker)                  →    .initialized
+```
+
+### Testing Setup Script
+
+```bash
+# Create test directory
+cp -r . ../test-fork
+cd ../test-fork
+
+# Run setup
+npm run setup
+
+# Validate
+npm run validate
+
+# Clean up
+cd .. && rm -rf test-fork
+```
+
+### Modifying Setup Script
+
+Key functions to modify:
+
+| Function | Purpose |
+|----------|---------|
+| `generateFolderIndex()` | Folder descriptions |
+| `generateTemplateIndex()` | Template list |
+| `generateRegisterIndex()` | Register list |
+| `generateWorkflowGraph()` | Workflow definitions |
+| `generateSecretaryReadme()` | Post-setup README |
+| `generateCorporationFile()` | CORPORATION.md content |
+| `interactiveSetup()` | Setup wizard flow |
+
+## File Type Conventions
+
+| Type | Naming | Example | Edit in Fork? |
+|------|--------|---------|---------------|
+| Templates | `_*.md` | `_board-resolution-template.md` | Copy, don't edit |
+| Registers | `*.csv` | `directors-register.csv` | Yes |
+| Guides | `README.md` | `03-registers/README.md` | Rarely |
+| Entry Points | `SECRETARY.md`, etc. | Root level | Reference only |
+| Config | `*.json` | `secretary-context.json` | Via setup script |
+
+## Contributing Workflow
+
+### Adding a Feature
+
+1. Create feature branch: `git checkout -b feature/description`
+2. Make changes
+3. Update relevant documentation
+4. Update `secretary-context.json` if structure changed
+5. Test with `npm run validate`
+6. Open PR with description
+
+### Updating Templates
+
+1. Edit template file (with `_` prefix)
+2. Update folder README if needed
+3. Update `WORKFLOWS.md` if usage changed
+4. Bump PATCH version
+
+### Changing Structure
+
+1. Update folder/file structure
+2. Update `secretary-context.json`
+3. Update `setup.mjs` generation functions
+4. Update all affected READMEs
+5. Update `SECRETARY.md` if needed
+6. Bump MINOR or MAJOR version
+
+## Quality Checklist
+
+Before releasing:
 
 - [ ] All template files have `_` prefix
-- [ ] Placeholders use `[BRACKETED]` format
-- [ ] Internal links are relative and valid
-- [ ] README follows standard structure
-- [ ] WORKFLOWS.md updated if adding templates
-- [ ] No real corporate data included
+- [ ] `secretary-context.json` matches actual structure
+- [ ] `setup.mjs` generates matching context
+- [ ] All internal links work
+- [ ] Navigation breadcrumbs present in READMEs
+- [ ] `WORKFLOWS.md` covers all templates
+- [ ] `npm run validate` passes
+- [ ] Version updated in `VERSION`, `package.json`, `secretary-context.json`
 
-### Simulating Fork Experience
+## Repository Architecture
 
-To test as a secretary would experience:
-1. Create a test branch
-2. Pretend `MAINTAINERS.md` doesn't exist
-3. Follow `SECRETARY.md` and `WORKFLOWS.md` for a task
-4. Note friction points
-
-## Code Review Guidelines
-
-### What to Check
-
-1. **Accuracy**: Legal document templates should be reviewed by counsel
-2. **Completeness**: All placeholders documented
-3. **Consistency**: Naming conventions followed
-4. **Navigation**: Links work, breadcrumbs present
-5. **AI-friendliness**: Clear structure, predictable patterns
-
-### Merge Requirements
-
-- At least one maintainer approval
-- Legal review for substantive template changes
-- Documentation updated
-
-## Roadmap Considerations
-
-When planning features, consider:
-
-1. **AI Agent Usability**
-   - Can an AI find the right template?
-   - Are instructions unambiguous?
-   - Is the workflow automatable?
-
-2. **Jurisdictional Flexibility**
-   - Templates should work for federal Canadian corporations
-   - Provincial variations should be documented
-   - International adaptations may need separate folders
-
-3. **Compliance Automation**
-   - Calendar reminders
-   - Validation of register consistency
-   - Filing deadline tracking
-
-## File Manifest
-
-### Entry Points (Root)
-- `README.md` - For new users evaluating the project
-- `SECRETARY.md` - For AI/human secretaries using a fork
-- `MAINTAINERS.md` - For template developers (this file)
-- `WORKFLOWS.md` - Task-based navigation index
-- `FORK-SETUP.md` - Post-fork initialization guide
-
-### Meta Documentation
-- `99-meta/governance-process.md` - PR workflow for corporate changes
-- `99-meta/CONTRIBUTING.md` - Technical contribution guidelines
-- `99-meta/templates/` - PR and changelog templates
-
-## Style Guide
-
-### Markdown
-- Use ATX headers (`#`, `##`, not underlines)
-- Tables for structured data
-- Code blocks for file paths and examples
-- Relative links for internal references
-
-### Naming
-- kebab-case for files and folders
-- Descriptive but concise slugs
-- Dates in ISO format (YYYY-MM-DD)
-
-### Commit Messages
-For template repo changes (not corporate actions):
 ```
-[template] Brief description
-
-- Detail about change
-- Impact on forks
+/
+├── setup.mjs                    # Initialization script
+├── package.json                 # Script runner
+├── VERSION                      # Semantic version
+├── secretary-context.json       # AI context (stub)
+├── secretary-context.schema.json # JSON schema
+│
+├── README.md                    # For GitHub visitors
+├── SECRETARY.md                 # For secretaries
+├── WORKFLOWS.md                 # Task procedures
+├── CORPORATION.md               # Corp details (placeholder)
+├── MAINTAINERS.md               # This file
+├── FORK-SETUP.md                # Setup instructions
+│
+├── .template-repo               # Template marker
+├── .gitattributes               # Git LFS config
+│
+├── 01-09 folders/               # Corporate structure
+└── 99-meta/                     # Meta documentation
 ```
+
+## Testing Personas
+
+When making changes, verify experience for all personas:
+
+### 1. GitHub Visitor (evaluating)
+- Does README.md clearly explain the value?
+- Is the setup process clear?
+
+### 2. New User (setting up)
+- Does `npm run setup` work smoothly?
+- Are error messages helpful?
+
+### 3. Human Secretary (operating)
+- Can they find the right workflow?
+- Are instructions clear?
+
+### 4. AI Agent Secretary (operating)
+- Does `secretary-context.json` provide sufficient context?
+- Are workflows machine-parseable?
+
+### 5. Maintainer (this persona)
+- Is it clear what to update when making changes?
+- Are there single sources of truth?
 
 ---
 

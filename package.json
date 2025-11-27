@@ -1,0 +1,22 @@
+{
+  "name": "corporate-minute-book",
+  "version": "1.0.0",
+  "description": "Git-based corporate minute book template for Canadian corporations",
+  "type": "module",
+  "scripts": {
+    "setup": "node setup.mjs",
+    "validate": "node setup.mjs --validate",
+    "context": "node setup.mjs --generate-context"
+  },
+  "keywords": [
+    "corporate",
+    "minute-book",
+    "governance",
+    "canada",
+    "cbca"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

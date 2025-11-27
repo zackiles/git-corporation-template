@@ -1,204 +1,170 @@
 # Post-Fork Setup Guide
 
-> **Congratulations on forking!** This guide walks you through initializing your corporate minute book.
+> **Quick Start**: After forking/cloning, run `npm run setup` to initialize your corporate minute book.
 
-## Quick Setup Checklist
+## Prerequisites
 
-- [ ] Rename your repository (recommended: `[company-name]-minute-book`)
-- [ ] Delete template-repo-only files
-- [ ] Configure Git LFS
-- [ ] Populate initial corporate data
-- [ ] Set up branch protection
-- [ ] (Optional) Configure AI secretary access
+- Node.js 18 or later
+- Git with Git LFS installed
+- Your corporation's incorporation documents (PDFs or screenshots)
 
----
+## Setup Steps
 
-## Step 1: Clean Up Template Files
-
-Remove files that are only relevant to the template repository:
+### 1. Clone or Fork
 
 ```bash
-# Remove template maintainer docs
-rm MAINTAINERS.md
-
-# Remove this setup guide after completing setup
-# (or keep for reference)
-rm FORK-SETUP.md
-
-# The .template-repo marker (if present) indicates this was a template
-rm -f .template-repo
+# Clone (or use "Use this template" on GitHub)
+git clone [your-fork-url]
+cd [your-repo-name]
 ```
 
-## Step 2: Configure Git LFS
-
-Binary artifacts (signed PDFs, scans) should use Git LFS:
+### 2. Run Setup Script
 
 ```bash
-# Install Git LFS if needed
-git lfs install
-
-# Verify tracking rules in .gitattributes
-cat .gitattributes
+npm run setup
 ```
 
-The repository should already have LFS configured for `09-binary-artifacts/`.
+The setup wizard will:
+- Ask for your corporation details (name, numbers, address, initial director)
+- Archive template-only files
+- Generate a secretary-focused README
+- Create `CORPORATION.md` with your details
+- Populate `secretary-context.json` for AI agents
+- Initialize the directors register
 
-## Step 3: Populate Corporate Identity
+### 3. Add Incorporation Documents
 
-### Update Root README
+After setup, add your incorporation documents:
 
-Edit `README.md` to reflect your corporation:
+```bash
+# Add to the binary artifacts folder
+cp path/to/articles-of-incorporation.pdf 09-binary-artifacts/01-formation/
+cp path/to/certificate-of-incorporation.pdf 09-binary-artifacts/01-formation/
+cp path/to/ontario-registration.pdf 09-binary-artifacts/01-formation/
 
-```markdown
-# [Your Corporation Name] - Minute Book
-
-This repository is the official minute book for [Corporation Name], 
-incorporated under the Canada Business Corporations Act.
-
-Corporation Number: [XXXXXXX]
-Incorporation Date: [YYYY-MM-DD]
-Fiscal Year End: [Month Day]
+# If you have screenshots instead of PDFs
+cp path/to/screenshot.png 09-binary-artifacts/01-formation/
 ```
 
-### Initialize Registers
+### 4. Commit Initial State
 
-Add your founding directors, officers, and shareholders:
-
-**`03-registers/directors-register.csv`**:
-```csv
-id,full_name,address,appointment_date,cessation_date,appointing_resolution
-D001,Jane Founder,"123 Startup St, Toronto ON M5V 1A1",2025-01-15,,R2025-01
+```bash
+git add -A
+git commit -m "[corp] Initialize minute book for [Your Corporation Name]"
 ```
 
-**`03-registers/officers-register.csv`**:
-```csv
-id,full_name,position,appointment_date,cessation_date,appointing_resolution
-O001,Jane Founder,President,2025-01-15,,R2025-01
-O002,Jane Founder,Secretary,2025-01-15,,R2025-01
+### 5. Set Up Branch Protection (Recommended)
+
+On GitHub, configure branch protection for `main`:
+- Require pull request reviews
+- Require review from CODEOWNERS (directors)
+- Restrict direct pushes
+
+## What the Setup Script Does
+
+| Action | Result |
+|--------|--------|
+| Archives `MAINTAINERS.md` | Moved to `.template-archive/` |
+| Archives `FORK-SETUP.md` | Moved to `.template-archive/` |
+| Archives `.template-repo` | Moved to `.template-archive/` |
+| Archives original `README.md` | Saved as `.template-archive/README.template.md` |
+| Generates new `README.md` | Secretary-focused for your corporation |
+| Creates `CORPORATION.md` | Filled with your corporation details |
+| Updates `secretary-context.json` | AI-ready structured context |
+| Updates directors register | Adds initial director |
+| Creates `.initialized` marker | Prevents accidental re-initialization |
+
+## Manual Setup (Alternative)
+
+If you prefer not to use the setup script:
+
+1. Delete these files:
+   - `MAINTAINERS.md`
+   - `FORK-SETUP.md`
+   - `.template-repo`
+
+2. Edit `README.md` to focus on your corporation
+
+3. Fill in `CORPORATION.md` with your details
+
+4. Update `secretary-context.json`:
+   - Set `initialized` to `true`
+   - Fill in `corporation` object with your details
+
+5. Add your initial director to `03-registers/directors-register.csv`
+
+## Configuring AI Secretary
+
+For AI agents (e.g., Cursor background agents):
+
+1. Point the agent to `secretary-context.json` as the primary context file
+2. Use `SECRETARY.md` for detailed operational instructions
+3. Reference `WORKFLOWS.md` for specific task procedures
+
+Example system prompt:
+```
+You are the corporate secretary for [Corporation Name].
+Load secretary-context.json for structured repository context.
+Follow SECRETARY.md for operational guidelines.
+Use WORKFLOWS.md for step-by-step procedures.
 ```
 
-**`03-registers/shareholders-register.csv`**:
-```csv
-id,shareholder_name,address,share_class,number_of_shares,issue_date,certificate_number
-S001,Jane Founder,"123 Startup St, Toronto ON M5V 1A1",Common,100,2025-01-15,C-001
+## First Corporate Actions
+
+After setup, typical first actions are:
+
+1. **Create organizational resolution** - Adopt bylaws, appoint officers, authorize shares
+2. **Appoint officers** - CEO, Secretary, etc.
+3. **Issue founder shares** - Initial equity to founders
+4. **Set up banking** - Banking resolution for account opening
+
+See `WORKFLOWS.md#initial-setup` for detailed procedures.
+
+## Keeping Up with Template Updates
+
+This fork won't automatically receive template updates. To check for updates:
+
+```bash
+# Add upstream remote (one time)
+git remote add upstream [original-template-url]
+
+# Fetch updates
+git fetch upstream
+
+# Review changes
+git diff main upstream/main -- VERSION
+
+# If desired, merge specific files (carefully)
+git checkout upstream/main -- path/to/updated/template
 ```
 
-### Add Formation Documents
+**Note**: Only update template files (those starting with `_`). Never overwrite your corporate data.
 
-1. Store articles of incorporation PDF in `09-binary-artifacts/01-formation/`
-2. Create organizational resolution in `01-formation/organizational-resolutions/`
-3. Customize bylaws from template in `01-formation/bylaws/`
+## Troubleshooting
 
-## Step 4: Configure Branch Protection
+### "Repository already initialized"
 
-Recommended GitHub branch protection rules for `main`:
-
-- ✅ Require pull request reviews before merging
-- ✅ Require review from Code Owners (directors)
-- ✅ Require status checks to pass
-- ✅ Do not allow bypassing the above settings
-- ✅ Restrict who can push to matching branches
-
-### CODEOWNERS File
-
-Create `.github/CODEOWNERS`:
-
-```
-# Corporate governance requires director approval
-/03-registers/           @director-github-username
-/05-capitalization/      @director-github-username
-/01-formation/           @director-github-username
-/02-constating-documents/ @director-github-username
-
-# Secretary can approve meeting documents
-/04-meetings-and-resolutions/ @secretary-github-username @director-github-username
+The `.initialized` marker exists. To reinitialize:
+```bash
+rm .initialized
+npm run setup
 ```
 
-## Step 5: Set Up AI Secretary (Optional)
+### Setup script not found
 
-If using an AI agent as corporate secretary:
+Ensure you have Node.js 18+ installed:
+```bash
+node --version  # Should be v18.0.0 or higher
+```
 
-### Cursor Background Agent
+### Need to validate state
 
-1. Grant the agent access to this repository
-2. Point it to `SECRETARY.md` as its primary instruction set
-3. Configure with these permissions:
-   - Read all files
-   - Create branches with `corp/` prefix
-   - Create pull requests
-   - Cannot merge without human approval
+```bash
+npm run validate
+```
 
-### Context for AI
-
-When instructing your AI secretary, reference:
-- `SECRETARY.md` - Primary orientation and role definition
-- `WORKFLOWS.md` - Step-by-step task instructions
-- Folder-specific `README.md` files for detailed context
-
-Example prompt:
-> "You are the corporate secretary for [Company Name]. Your instructions are in SECRETARY.md. 
-> When I ask you to perform corporate actions, follow the workflows in WORKFLOWS.md."
-
-## Step 6: First Corporate Actions
-
-Typical first actions after incorporation:
-
-1. **Organizational Resolution** - Adopt bylaws, appoint officers, authorize shares
-2. **Founder Share Issuance** - Issue initial shares to founders
-3. **Banking Resolution** - Authorize opening bank accounts
-4. **Initial Registers** - Populate all registers with founding data
-
-Use templates in `01-formation/` and `04-meetings-and-resolutions/` to create these documents.
+This checks for missing files and reports issues.
 
 ---
 
-## Repository Structure After Setup
-
-```
-your-minute-book/
-├── README.md                    # Updated with your corporation info
-├── SECRETARY.md                 # Keep - AI/human secretary guide
-├── WORKFLOWS.md                 # Keep - Task reference
-├── 01-formation/
-│   ├── bylaws/
-│   │   └── 001-general-by-law.md    # Your adopted bylaws
-│   ├── organizational-resolutions/
-│   │   └── R2025-01-organizational.md
-│   └── ...
-├── 03-registers/
-│   ├── directors-register.csv   # Populated with your directors
-│   ├── officers-register.csv    # Populated with your officers
-│   └── shareholders-register.csv # Populated with your shareholders
-├── 09-binary-artifacts/
-│   └── 01-formation/
-│       └── articles-of-incorporation.pdf
-└── ...
-```
-
----
-
-## Maintenance Notes
-
-### Annual Tasks
-See `WORKFLOWS.md#annual-compliance` for annual filing requirements.
-
-### Keeping Templates Updated
-This fork won't receive template updates from the upstream repository automatically. Periodically check the original template repo for improved templates and guides.
-
-### Backup
-While Git provides version history, consider:
-- Enabling GitHub repository backup
-- Periodic exports of critical registers
-- Secure offline backup of binary artifacts
-
----
-
-## Getting Help
-
-- **Process questions**: See `99-meta/governance-process.md`
-- **Workflow help**: See `WORKFLOWS.md`
-- **Legal questions**: Consult qualified legal counsel
-
----
-
-**You're ready!** Delete this file when setup is complete, or keep it for reference.
+*Delete this file after completing setup, or find it archived in `.template-archive/` after running `npm run setup`.*

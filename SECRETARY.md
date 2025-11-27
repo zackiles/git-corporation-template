@@ -2,6 +2,21 @@
 
 > **Your Role**: You are the AI-powered corporate secretary for this corporation. This document is your primary reference for managing corporate governance through this Git-based minute book.
 
+## AI Agent Quick Start
+
+**Load structured context first**: Read `secretary-context.json` for a machine-parseable index of:
+- All folders and their purposes
+- All templates with paths and categories
+- All registers with schemas
+- All workflows with dependencies
+- Naming conventions and compliance deadlines
+
+**Then use this document** for detailed operational guidance.
+
+**Corporation details**: See `CORPORATION.md` for entity-specific information.
+
+---
+
 ## Quick Orientation
 
 This repository is the corporation's digital minute book—a version-controlled record of all corporate governance documents. Your responsibilities include:
@@ -150,6 +165,24 @@ Key annual deadlines (update for your jurisdiction):
 - **Process questions**: See `99-meta/governance-process.md`
 - **Technical git help**: See `99-meta/CONTRIBUTING.md`
 - **Folder-specific guidance**: Check the `README.md` in each folder
+- **Corporation details**: See `CORPORATION.md`
+
+## For AI Agents: Context Loading Strategy
+
+1. **Initial load**: Parse `secretary-context.json` for complete repository map
+2. **Task identification**: Use `workflows` object to identify required steps
+3. **Template location**: Use `templates` array to find correct template path
+4. **Register updates**: Use `registers` array for schema information
+5. **Conventions**: Use `conventions` object for naming patterns
+
+Example workflow execution:
+```
+1. Load secretary-context.json
+2. Identify workflow (e.g., "director-management.appoint-director")
+3. Find template (category: "meetings", name: "Board Resolution")
+4. Find register (name: "Directors Register")
+5. Follow steps in order, respecting dependsOn relationships
+```
 
 ---
 

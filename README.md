@@ -2,7 +2,9 @@
 
 A Git-based template for managing your corporation's minute book—the official record of governance documents, resolutions, and corporate registers.
 
-**Built for AI-assisted corporate governance.** Fork this repository and let an AI agent handle the paperwork while you focus on building your business.
+**Built for AI-assisted corporate governance.** Fork this repository, run the setup script, and let an AI agent handle the paperwork while you focus on building your business.
+
+[![Template Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](VERSION)
 
 ---
 
@@ -36,31 +38,39 @@ A Git-based template for managing your corporation's minute book—the official 
 
 ## Quick Start
 
-### 1. Fork This Repository
-
-Click **"Use this template"** or fork directly:
+### 1. Fork or Clone This Repository
 
 ```bash
+# Using GitHub CLI
 gh repo create my-company-minute-book --template [this-repo-url]
+cd my-company-minute-book
+
+# Or clone directly
+git clone [this-repo-url] my-company-minute-book
 cd my-company-minute-book
 ```
 
-### 2. Initialize Your Corporation
-
-Follow the setup guide:
+### 2. Run the Setup Script
 
 ```bash
-# Review setup instructions
-cat FORK-SETUP.md
-
-# Remove template-only files
-rm MAINTAINERS.md .template-repo
-
-# Customize for your corporation
-# Edit README.md, populate registers, add formation docs
+npm run setup
 ```
 
-### 3. Start Managing Corporate Actions
+The interactive setup will:
+- Ask for your corporation details (name, numbers, address)
+- Generate a secretary-focused README
+- Create `CORPORATION.md` with your details
+- Initialize `secretary-context.json` for AI agents
+- Archive template-only files
+
+### 3. Add Your Incorporation Documents
+
+```bash
+# Add PDFs/screenshots from Corporations Canada and Ontario
+cp path/to/incorporation-docs/* 09-binary-artifacts/01-formation/
+```
+
+### 4. Start Managing Corporate Actions
 
 See `WORKFLOWS.md` for step-by-step guides to common tasks:
 - Recording board resolutions
@@ -72,29 +82,35 @@ See `WORKFLOWS.md` for step-by-step guides to common tasks:
 
 ## Using with AI Agents
 
-This template is designed for AI-assisted corporate governance. Point your AI agent to `SECRETARY.md` and it will understand how to:
-
-- Navigate the repository structure
-- Find and use the right templates
-- Update registers correctly
-- Follow proper Git workflows
-- Maintain compliance
-
-### Cursor Background Agent
-
-```
-You are the corporate secretary for [Company Name].
-Read SECRETARY.md for your role and instructions.
-Use WORKFLOWS.md for step-by-step task guidance.
-```
+This template is designed for AI-assisted corporate governance. After running setup, the repository provides structured context optimized for AI agents.
 
 ### Key Files for AI Context
 
 | File | Purpose |
 |------|---------|
-| `SECRETARY.md` | Primary AI instructions and orientation |
-| `WORKFLOWS.md` | Task-by-task procedures |
-| `99-meta/governance-process.md` | PR and approval workflows |
+| `secretary-context.json` | **Machine-readable** index of folders, templates, registers, workflows |
+| `SECRETARY.md` | Detailed instructions and orientation |
+| `WORKFLOWS.md` | Step-by-step task procedures |
+| `CORPORATION.md` | Corporation-specific details |
+
+### Cursor Background Agent
+
+Example system prompt:
+```
+You are the corporate secretary for [Company Name].
+Load secretary-context.json for structured repository context.
+Follow SECRETARY.md for operational guidelines.
+Use WORKFLOWS.md for step-by-step procedures.
+```
+
+### What `secretary-context.json` Provides
+
+- **Folder index**: All folders with descriptions
+- **Template list**: All templates with paths and categories
+- **Register schemas**: CSV column definitions
+- **Workflow graph**: Tasks with dependencies
+- **Conventions**: Naming patterns, date formats, branch prefixes
+- **Compliance deadlines**: Key regulatory dates
 
 ---
 
@@ -144,16 +160,34 @@ Templates are **not legal advice**—consult qualified counsel for your specific
 
 | Document | Audience | Purpose |
 |----------|----------|---------|
-| [SECRETARY.md](SECRETARY.md) | AI agents, human secretaries | Operating the minute book |
+| [FORK-SETUP.md](FORK-SETUP.md) | New users | Setup instructions |
+| [SECRETARY.md](SECRETARY.md) | AI agents, human secretaries | Operating guide |
 | [WORKFLOWS.md](WORKFLOWS.md) | Anyone doing corporate actions | Step-by-step procedures |
-| [FORK-SETUP.md](FORK-SETUP.md) | New users | Post-fork initialization |
+| [CORPORATION.md](CORPORATION.md) | Reference | Corporation-specific details |
 | [MAINTAINERS.md](MAINTAINERS.md) | Template contributors | Improving this template |
+
+## Requirements
+
+- **Node.js**: 18 or later (for setup script)
+- **Git LFS**: For binary artifacts (PDFs, scans)
+- **Git**: Standard version control
 
 ---
 
 ## Contributing
 
 Improvements to templates, documentation, and structure are welcome! See `MAINTAINERS.md` for contribution guidelines.
+
+---
+
+## Versioning
+
+This template uses semantic versioning. Check `VERSION` for the current version. When updating a fork:
+
+```bash
+git fetch upstream
+git diff main upstream/main -- VERSION  # Check for updates
+```
 
 ---
 

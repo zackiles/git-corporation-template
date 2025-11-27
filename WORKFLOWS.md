@@ -2,12 +2,15 @@
 
 > **Navigation Index**: This document provides step-by-step workflows for common corporate actions. Each workflow links to relevant templates and registers.
 
+> **AI Agents**: The `workflows` object in `secretary-context.json` contains a machine-readable version of these workflows with dependency graphs.
+
 ---
 
 ## Quick Navigation
 
 | Category | Common Tasks |
 |----------|--------------|
+| [Initial Setup](#initial-setup) | First-time setup after incorporation |
 | [Board Actions](#board-actions) | Resolutions, meetings, approvals |
 | [Director Changes](#director-changes) | Appointments, resignations, removals |
 | [Officer Changes](#officer-changes) | Appointments, resignations, title changes |
@@ -16,6 +19,137 @@
 | [Annual Compliance](#annual-compliance) | Filings, returns, renewals |
 | [Policy Updates](#policy-updates) | Bylaws, policies, amendments |
 | [Financial Approvals](#financial-approvals) | Statements, budgets, banking |
+
+---
+
+## Initial Setup
+
+### First-Time Corporation Setup
+
+**When**: Immediately after incorporation, before any corporate actions.
+
+**Prerequisites**: 
+- Incorporation documents from Corporations Canada
+- Ontario extra-provincial registration (if applicable)
+- Initial director information
+
+**Workflow Graph**:
+```
+review-incorporation-docs
+         ↓
+record-initial-director
+         ↓
+create-organizational-resolution
+         ↓
+    ┌────┴────┐
+    ↓         ↓
+appoint-officers  issue-founder-shares
+    ↓
+setup-banking
+```
+
+### Step 1: Review Incorporation Documents
+
+**Action**: Collect and review all documents from incorporation.
+
+**Required documents** (store in `09-binary-artifacts/01-formation/`):
+- [ ] Certificate of Incorporation (from Corporations Canada)
+- [ ] Articles of Incorporation
+- [ ] Ontario Corporation Number confirmation (if registered)
+- [ ] Screenshots of online registration confirmations
+
+**Verify**:
+- Corporation legal name
+- Federal Corporation Number
+- Ontario Corporation Number (if applicable)
+- Registered office address
+- Initial director name and address
+
+**Update**: Ensure `CORPORATION.md` has correct details.
+
+---
+
+### Step 2: Record Initial Director
+
+**Action**: Add the incorporating director to the directors register.
+
+**Update** `03-registers/directors-register.csv`:
+```csv
+id,full_name,address,appointment_date,cessation_date,appointing_resolution
+D001,"[Director Name]","[Address]",[Incorporation Date],,
+```
+
+**Note**: The initial director is appointed by the articles of incorporation, not by resolution.
+
+---
+
+### Step 3: Create Organizational Resolution
+
+**Action**: Create the "birth certificate" resolution that:
+- Adopts bylaws
+- Appoints officers
+- Authorizes share issuance
+- Sets up banking authority
+
+**Steps**:
+1. Copy `01-formation/bylaws/_001-general-by-law-template.md` → `01-formation/bylaws/001-general-by-law.md`
+2. Customize bylaws for your corporation
+3. Create organizational resolution in `01-formation/organizational-resolutions/`
+4. Reference bylaw adoption in resolution
+
+**Template**: Use `04-meetings-and-resolutions/board/0000-templates/_board-resolution-template.md`
+
+**Branch**: `corp/organizational-resolution-YYYY-MM`
+
+---
+
+### Step 4: Appoint Officers
+
+**Action**: Update officers register with initial appointments from organizational resolution.
+
+**Update** `03-registers/officers-register.csv`:
+```csv
+id,full_name,position,appointment_date,cessation_date,appointing_resolution
+O001,"[Name]",President,[Date],,R[Year]-01
+O002,"[Name]",Secretary,[Date],,R[Year]-01
+O003,"[Name]",Treasurer,[Date],,R[Year]-01
+```
+
+**Note**: One person can hold multiple officer positions.
+
+---
+
+### Step 5: Issue Founder Shares
+
+**Action**: Issue initial shares to founders as authorized by organizational resolution.
+
+**Steps**:
+1. Create issuance folder: `05-capitalization/share-issuances/[YYYY]-founder-shares/`
+2. Create subscription agreement from template
+3. Create share certificate from template
+4. Update `03-registers/shareholders-register.csv`
+5. Update `03-registers/securities-register.csv`
+
+**Templates**:
+- `05-capitalization/share-issuances/0000-templates/_share-subscription-agreement-template.md`
+- `05-capitalization/share-issuances/0000-templates/_share-certificate-template.md`
+
+**Branch**: `corp/issuance-founder-shares-YYYY-MM`
+
+---
+
+### Step 6: Set Up Banking
+
+**Action**: Create banking resolution for opening corporate bank accounts.
+
+**Steps**:
+1. Copy `07-finance-and-tax/banking/_open-bank-account-resolution-template.md`
+2. Specify authorized signers and signing requirements
+3. Take resolution to bank to open account
+
+**Template**: `07-finance-and-tax/banking/_open-bank-account-resolution-template.md`
+
+**Branch**: `corp/banking-setup-YYYY-MM`
 
 ---
 
