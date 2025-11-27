@@ -1,7 +1,3 @@
-This directory stores financial and tax documents.
-
-Expected files:
-- Financial statements (signed)
-- Auditor reports
-- Tax returns (filed copies)
-- Bank agreements
+version https://git-lfs.github.com/spec/v1
+oid sha256:ffe922e500c6bd4c409d2c5cf5dfede9847ed3fe63352be085f7bcf626a72190
+size 165

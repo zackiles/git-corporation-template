@@ -1,6 +1,3 @@
-This directory stores signed board documents for 2025.
-
-Expected files:
-- Signed meeting minutes
-- Signed resolutions
-- Supporting documents
+version https://git-lfs.github.com/spec/v1
+oid sha256:aeb4ef00ed138a4c5f7acf5ef900e962ff406be66cf89ca77a17a849d5e94f95
+size 141

@@ -1,6 +1,3 @@
-This directory stores signed constating documents.
-
-Expected files:
-- Shareholders agreements (signed)
-- Policy documents (signed)
-- Amendments (signed)
+version https://git-lfs.github.com/spec/v1
+oid sha256:7829e7a43f9ab8cd053ef15f5d60eb3975c61a545bdc7937d9de3d2ff8d7abcf
+size 153

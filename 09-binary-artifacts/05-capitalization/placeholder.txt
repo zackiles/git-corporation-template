@@ -1,7 +1,3 @@
-This directory stores capitalization documents.
-
-Expected files:
-- Share certificates (signed)
-- Subscription agreements (signed)
-- Option agreements (signed)
-- ESOP plan (signed)
+version https://git-lfs.github.com/spec/v1
+oid sha256:b0f6f73eba015c5874040b3163c0b0f5225767f5eda956a9fb519ffb2defe6b0
+size 180
