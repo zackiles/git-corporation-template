@@ -1,5 +1,7 @@
 # Constating Documents
 
+> **Navigation**: [← Back to Root](../README.md) · [Workflows](../WORKFLOWS.md) · [Secretary Guide](../SECRETARY.md)
+
 This folder holds documents that define how the corporation operates beyond statutes and bylaws.
 
 ## Contents
@@ -20,7 +22,12 @@ Every governance change should follow this process:
 
 ## Templates
 
-- `unanimous-shareholders-agreement-template.md` - For shareholder governance
-- `dividend-policy-template.md` - Dividend decision criteria and process
-- `signing-authority-policy-template.md` - Authorized signatories and limits
-- `amendment-template.md` - General amendment structure
+- `shareholders-agreements/_unanimous-shareholders-agreement-template.md` - For shareholder governance
+- `policies/_dividend-policy-template.md` - Dividend decision criteria and process
+- `policies/_signing-authority-policy-template.md` - Authorized signatories and limits
+- `amendments/_amendment-template.md` - General amendment structure
+
+## Related Workflows
+
+- [Update Bylaws](../WORKFLOWS.md#update-bylaws)
+- [Update Policy](../WORKFLOWS.md#update-policy)

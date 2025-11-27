@@ -1,5 +1,7 @@
 # Regulatory Filings
 
+> **Navigation**: [← Back to Root](../README.md) · [Workflows](../WORKFLOWS.md) · [Secretary Guide](../SECRETARY.md)
+
 This folder contains documentation of regulatory filings with federal, provincial, and tax authorities.
 
 ## Contents
@@ -31,3 +33,7 @@ Each filing should be linked to any related governance documents:
 | Ontario Annual Return | Within 60 days of anniversary | ServiceOntario |
 | T2 Corporate Tax Return | 6 months after fiscal year end | CRA |
 | HST Returns | Varies by reporting period | CRA |
+
+## Related Workflows
+
+- [Annual Compliance](../WORKFLOWS.md#annual-tasks)

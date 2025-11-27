@@ -1,5 +1,7 @@
 # Formation Documents
 
+> **Navigation**: [← Back to Root](../README.md) · [Workflows](../WORKFLOWS.md) · [Secretary Guide](../SECRETARY.md)
+
 This folder contains documents relating to incorporation and initial organization of the corporation.
 
 ## Contents

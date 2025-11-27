@@ -1,11 +1,13 @@
 # Options and ESOP
 
+> **Navigation**: [← Capitalization](../README.md) · [← Root](../../README.md) · [Workflows](../../WORKFLOWS.md)
+
 This folder contains stock option plan documentation and individual grant records.
 
 ## Contents
 
-- `esop-plan-template.md` - Template for the stock option plan
-- `option-grant-template.md` - Template for individual option grants
+- `_esop-plan-template.md` - Template for the stock option plan
+- `_option-grant-template.md` - Template for individual option grants
 - `option-grants-register.csv` - Register of all option grants
 
 ## ESOP Workflow
@@ -24,3 +26,7 @@ Track these for each grant:
 - Vesting schedule milestones
 - Expiration date
 - Exercise events
+
+## Related Workflows
+
+- [Option Grant](../../WORKFLOWS.md#option-grant)

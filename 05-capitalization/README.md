@@ -1,5 +1,7 @@
 # Capitalization
 
+> **Navigation**: [← Back to Root](../README.md) · [Workflows](../WORKFLOWS.md) · [Secretary Guide](../SECRETARY.md)
+
 This folder contains cap table, share issuances, options, and ESOP documentation.
 
 ## Contents
@@ -42,3 +44,9 @@ Every issuance should include:
 5. Obtain all required signatures
 6. Store signed PDFs in `09-binary-artifacts/05-capitalization/`
 7. Link from Markdown files
+
+## Related Workflows
+
+- [Share Issuance](../WORKFLOWS.md#share-issuance)
+- [Share Transfer](../WORKFLOWS.md#share-transfer)
+- [Option Grant](../WORKFLOWS.md#option-grant)

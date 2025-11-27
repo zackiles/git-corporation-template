@@ -1,5 +1,7 @@
 # Commercial and IP
 
+> **Navigation**: [← Back to Root](../README.md) · [Workflows](../WORKFLOWS.md) · [Secretary Guide](../SECRETARY.md)
+
 This folder contains key commercial contracts, intellectual property documentation, and HR-related IP agreements.
 
 ## Contents
@@ -30,7 +32,7 @@ Markdown files in this directory provide summaries and link to the signed PDFs.
 
 ## Templates Available
 
-- MSA skeleton
-- NDA skeleton
-- IP assignment skeleton
-- Employee IP & confidentiality agreement skeleton
+- `key-contracts/0000-templates/_msa-template.md` - Master Service Agreement
+- `key-contracts/0000-templates/_nda-template.md` - Non-Disclosure Agreement
+- `ip/assignments/_ip-assignment-template.md` - IP Assignment
+- `hr/_employee-ip-and-confidentiality-template.md` - Employee IP & Confidentiality
