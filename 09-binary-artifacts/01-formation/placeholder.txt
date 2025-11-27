@@ -1,7 +1,1 @@
-This directory stores signed/scanned formation documents.
-
-Expected files:
-- Articles of Incorporation (signed)
-- Certificate of Incorporation
-- Bylaws (signed)
-- Initial resolutions (signed)
+This is a placeholder for a binary artifact.

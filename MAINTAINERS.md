@@ -7,6 +7,7 @@
 | File | Purpose | Edit Frequency |
 |------|---------|----------------|
 | `VERSION` | Semantic version of template | On release |
+| `AGENTS.md` | AI agent discovery/instructions | When agent behavior changes |
 | `secretary-context.json` | AI agent context (stub) | When structure changes |
 | `setup.mjs` | Initialization script | When setup flow changes |
 | `SECRETARY.md` | Secretary operating guide | When workflows change |
@@ -18,6 +19,7 @@
 |--------|---------------|-------------|
 | **State** | Uninitialized | Initialized |
 | **`.initialized` marker** | Absent | Present |
+| **`AGENTS.md`** | Generic placeholders | Populated with corporation name/number |
 | **`secretary-context.json`** | Stub (nulls) | Populated |
 | **`CORPORATION.md`** | Placeholder | Filled in |
 | **`README.md`** | GitHub-focused | Secretary-focused |
@@ -213,8 +215,9 @@ Before releasing:
 ├── secretary-context.json       # AI context (stub)
 ├── secretary-context.schema.json # JSON schema
 │
+├── AGENTS.md                    # AI agent discovery (primary)
 ├── README.md                    # For GitHub visitors
-├── SECRETARY.md                 # For secretaries
+├── SECRETARY.md                 # Operational guide (AI + human)
 ├── WORKFLOWS.md                 # Task procedures
 ├── CORPORATION.md               # Corp details (placeholder)
 ├── MAINTAINERS.md               # This file
@@ -232,24 +235,30 @@ Before releasing:
 When making changes, verify experience for all personas:
 
 ### 1. GitHub Visitor (evaluating)
-- Does README.md clearly explain the value?
+- Does README.md clearly explain AI-first value proposition?
 - Is the setup process clear?
+- Is it obvious this is designed for AI agents?
 
 ### 2. New User (setting up)
 - Does `npm run setup` work smoothly?
 - Are error messages helpful?
+- Is the path to AI agent usage clear?
 
-### 3. Human Secretary (operating)
-- Can they find the right workflow?
-- Are instructions clear?
-
-### 4. AI Agent Secretary (operating)
+### 3. AI Agent Secretary (primary operating persona)
+- Does `AGENTS.md` provide clear discovery instructions?
 - Does `secretary-context.json` provide sufficient context?
 - Are workflows machine-parseable?
+- Can an agent execute common tasks autonomously?
+
+### 4. Human Secretary (alternative operating persona)
+- Can they find the right workflow in `WORKFLOWS.md`?
+- Are template placeholders clear?
+- Does `SECRETARY.md` provide adequate guidance?
 
 ### 5. Maintainer (this persona)
 - Is it clear what to update when making changes?
 - Are there single sources of truth?
+- Is `AGENTS.md` kept in sync with `secretary-context.json`?
 
 ---
 

@@ -46,6 +46,7 @@ const CONFIG = {
   // Files that should be replaced with secretary-focused versions
   filesToReplace: {
     'README.md': generateSecretaryReadme,
+    'AGENTS.md': generateAgentsFile,
   },
 };
 
@@ -357,10 +358,11 @@ function generateSecretaryContext(corporation = null) {
     workflows: generateWorkflowGraph(),
     
     entryPoints: {
-      humanSecretary: 'SECRETARY.md',
-      aiSecretary: 'secretary-context.json',
+      agents: 'AGENTS.md',
+      context: 'secretary-context.json',
+      guide: 'SECRETARY.md',
       workflows: 'WORKFLOWS.md',
-      corporationDetails: 'CORPORATION.md',
+      corporation: 'CORPORATION.md',
     },
     
     conventions: {
@@ -396,7 +398,7 @@ This repository is the official minute book for **${corpName}** (Corporation No.
 
 ## Quick Start for Secretary
 
-**AI Agents**: Load \`secretary-context.json\` for structured context, then refer to \`SECRETARY.md\` for detailed instructions.
+**AI Agents**: Start with \`AGENTS.md\` for discovery, load \`secretary-context.json\` for structured context, then refer to \`SECRETARY.md\` for detailed instructions.
 
 **Humans**: Start with \`SECRETARY.md\` for orientation, then use \`WORKFLOWS.md\` for specific tasks.
 
@@ -412,6 +414,7 @@ See \`CORPORATION.md\` for:
 
 | File | Purpose |
 |------|---------|
+| \`AGENTS.md\` | AI agent discovery and instructions |
 | \`secretary-context.json\` | Structured context for AI agents |
 | \`SECRETARY.md\` | Detailed secretary guide |
 | \`WORKFLOWS.md\` | Step-by-step task procedures |
@@ -446,6 +449,141 @@ See \`WORKFLOWS.md#initial-setup\` for detailed steps.
 ---
 
 *Template version: ${getVersion()}*
+`;
+}
+
+function generateAgentsFile(corporation) {
+  const corpName = corporation?.name || '[Corporation Name]';
+  const corpNumber = corporation?.federalNumber || '[Corporation Number]';
+  
+  return `# AI Agent Instructions
+
+> **You are the corporate secretary for ${corpName}** This file provides instructions for AI agents operating in this repository.
+
+## Quick Start
+
+1. **Load context**: Parse \`secretary-context.json\` for complete repository structure
+2. **Review details**: Read \`CORPORATION.md\` for entity-specific information
+3. **Follow procedures**: Use \`WORKFLOWS.md\` for step-by-step task execution
+4. **Reference guide**: Consult \`SECRETARY.md\` for operational guidelines
+
+## Your Role
+
+You are responsible for maintaining the corporation's digital minute book—the authoritative record of corporate governance. Your duties include:
+
+- **Drafting documents**: Resolutions, meeting minutes, agreements
+- **Maintaining registers**: Directors, officers, shareholders, securities
+- **Tracking compliance**: Filing deadlines, annual returns, regulatory notices
+- **Managing capitalization**: Share issuances, transfers, option grants
+
+## Corporation Context
+
+| Field | Value |
+|-------|-------|
+| **Legal Name** | ${corpName} |
+| **Corporation Number** | ${corpNumber} |
+| **Jurisdiction** | Canada (CBCA) / Ontario |
+
+For complete details, see \`CORPORATION.md\`.
+
+## Context Loading
+
+### Primary Context File
+
+\`secretary-context.json\` contains machine-readable data:
+
+\`\`\`json
+{
+  "corporation": { /* Entity details */ },
+  "folders": { /* Repository structure with descriptions */ },
+  "templates": [ /* All templates with paths and categories */ ],
+  "registers": [ /* CSV registers with schemas */ ],
+  "workflows": { /* Task procedures with dependencies */ },
+  "conventions": { /* Naming patterns, date formats */ },
+  "compliance": { /* Key regulatory deadlines */ }
+}
+\`\`\`
+
+### Workflow Execution Pattern
+
+\`\`\`
+1. Identify workflow in secretary-context.json
+2. Find template(s) for the task
+3. Copy template (remove _ prefix)
+4. Fill placeholders with corporation data
+5. Update affected registers (CSV files)
+6. Create branch with corp/ prefix
+7. Commit with [corp] prefix
+\`\`\`
+
+## File Conventions
+
+| Pattern | Meaning |
+|---------|---------|
+| \`_filename.md\` | Template—copy, don't edit directly |
+| \`*.csv\` | Register—authoritative corporate records |
+| \`RYYYY-NN-*.md\` | Resolution (e.g., \`R2025-03-appoint-cfo.md\`) |
+| \`YYYY-MM-DD-*/\` | Meeting folder |
+| \`corp/*\` branch | Corporate action branch |
+
+## Key Locations
+
+| Need | Location |
+|------|----------|
+| Corporation details | \`CORPORATION.md\` |
+| Task procedures | \`WORKFLOWS.md\` |
+| Operational guide | \`SECRETARY.md\` |
+| Directors list | \`03-registers/directors-register.csv\` |
+| Officers list | \`03-registers/officers-register.csv\` |
+| Shareholders | \`03-registers/shareholders-register.csv\` |
+| Board resolutions | \`04-meetings-and-resolutions/board/\` |
+| Share transactions | \`05-capitalization/share-issuances/\` |
+
+## Common Tasks
+
+### Record a Board Resolution
+
+1. Copy \`04-meetings-and-resolutions/board/0000-templates/_board-resolution-template.md\`
+2. Save as \`04-meetings-and-resolutions/board/YYYY/RYYYY-NN-slug.md\`
+3. Fill placeholders from \`CORPORATION.md\`
+4. Create branch \`corp/resolution-slug-YYYY-MM\`
+
+### Add a Director
+
+1. Create board resolution authorizing appointment
+2. Update \`03-registers/directors-register.csv\`
+3. Create branch \`corp/add-director-name-YYYY-MM\`
+4. Note: File Form 6 with Corporations Canada within 15 days
+
+### Issue Shares
+
+1. Create board resolution authorizing issuance
+2. Create subscription agreement from template
+3. Create share certificate from template
+4. Update \`03-registers/shareholders-register.csv\`
+5. Update \`03-registers/securities-register.csv\`
+6. Create branch \`corp/issuance-description-YYYY-MM\`
+
+## Principles
+
+1. **Traceability**: Every register change references an authorizing resolution
+2. **Atomicity**: One corporate action per PR
+3. **Accuracy**: Use exact values from \`CORPORATION.md\`
+4. **Compliance**: Note filing deadlines when relevant
+5. **Organization**: Follow naming conventions strictly
+
+## Error Recovery
+
+If you encounter issues:
+
+- **Missing template**: Check \`secretary-context.json\` templates array
+- **Unknown workflow**: Check \`WORKFLOWS.md\` for procedures
+- **Register schema**: Check \`secretary-context.json\` registers array for column definitions
+- **Corporation details**: Always reference \`CORPORATION.md\`
+
+---
+
+*For detailed operational guidance, see \`SECRETARY.md\`. For step-by-step procedures, see \`WORKFLOWS.md\`.*
 `;
 }
 
@@ -564,7 +702,7 @@ async function validateState() {
   console.log(`Initialized: ${initialized ? '✓' : '✗ (run npm run setup)'}`);
   
   // Check required files
-  const requiredFiles = ['SECRETARY.md', 'WORKFLOWS.md', CONFIG.contextFile];
+  const requiredFiles = ['AGENTS.md', 'SECRETARY.md', 'WORKFLOWS.md', CONFIG.contextFile];
   for (const file of requiredFiles) {
     const exists = existsSync(join(ROOT, file));
     console.log(`${file}: ${exists ? '✓' : '✗'}`);
@@ -733,7 +871,11 @@ async function performSetup(corporation) {
   console.log('📝 Generating CORPORATION.md...');
   writeFileSync(join(ROOT, CONFIG.corporationFile), generateCorporationFile(corporation));
   
-  // 4. Update directors register with initial director
+  // 4. Generate AGENTS.md with corporation context
+  console.log('🤖 Generating AGENTS.md...');
+  writeFileSync(join(ROOT, 'AGENTS.md'), generateAgentsFile(corporation));
+  
+  // 5. Update directors register with initial director
   if (corporation.initialDirector?.name) {
     console.log('📊 Updating directors register...');
     const directorsPath = join(ROOT, '03-registers/directors-register.csv');
@@ -742,7 +884,7 @@ async function performSetup(corporation) {
     writeFileSync(directorsPath, directorsHeader + '\n' + directorRow + '\n');
   }
   
-  // 5. Create initialization marker (before context so initialized=true)
+  // 6. Create initialization marker (before context so initialized=true)
   console.log('✓  Creating initialization marker...');
   writeFileSync(join(ROOT, CONFIG.markerFile), JSON.stringify({
     initializedAt: new Date().toISOString(),
@@ -750,7 +892,7 @@ async function performSetup(corporation) {
     corporationName: corporation.name,
   }, null, 2));
   
-  // 6. Generate secretary context (after marker so initialized=true)
+  // 7. Generate secretary context (after marker so initialized=true)
   console.log('🤖 Generating secretary-context.json...');
   const context = generateSecretaryContext(corporation);
   writeJSON(join(ROOT, CONFIG.contextFile), context);
@@ -762,7 +904,7 @@ async function performSetup(corporation) {
   console.log('  2. Review and complete CORPORATION.md');
   console.log('  3. Create organizational resolution (see WORKFLOWS.md#initial-setup)');
   console.log('  4. Commit these changes: git add -A && git commit -m "[corp] Initialize minute book"');
-  console.log('\nFor AI agents: Load secretary-context.json for structured context.');
+  console.log('\nFor AI agents: AGENTS.md provides discovery instructions; secretary-context.json has structured context.');
   console.log('For humans: Start with SECRETARY.md for detailed guidance.\n');
 }
 
