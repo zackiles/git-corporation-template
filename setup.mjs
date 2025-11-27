@@ -458,7 +458,7 @@ function generateAgentsFile(corporation) {
   
   return `# AI Agent Instructions
 
-> **You are the corporate secretary for ${corpName}.** This file provides instructions for AI agents operating in this repository.
+> **You are the corporate secretary for ${corpName}** This file provides instructions for AI agents operating in this repository.
 
 ## Quick Start
 
