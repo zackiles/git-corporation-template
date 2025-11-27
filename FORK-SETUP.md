@@ -52,7 +52,8 @@ The setup wizard will:
 - Archive template-only files
 - Generate a secretary-focused README
 - Create `CORPORATION.md` with your details
-- Populate `secretary-context.json` for AI agents
+- Populate `AGENTS.md` with your corporation context (AI entry point)
+- Populate `secretary-context.json` with structured context for AI agents
 - Initialize the directors register
 
 ### 3. Add Incorporation Documents
@@ -111,41 +112,70 @@ If you prefer not to use the setup script:
 
 3. Fill in `CORPORATION.md` with your details
 
-4. Update `secretary-context.json`:
+4. Update `AGENTS.md`:
+   - Replace `[CORPORATION_NAME]` with your corporation's legal name
+   - Replace `[CORPORATION_NUMBER]` with your federal corporation number
+
+5. Update `secretary-context.json`:
    - Set `initialized` to `true`
    - Fill in `corporation` object with your details
 
-5. Add your initial director to `03-registers/directors-register.csv`
+6. Add your initial director to `03-registers/directors-register.csv`
 
 ## Using Your AI Secretary
 
 After setup, your repository is ready for AI-powered corporate governance.
 
+### How Context Loading Works
+
+`AGENTS.md` serves as the **primary entry point** for AI agents. It's designed to be auto-discovered and provides instructions that guide the agent to progressively load additional context as needed:
+
+```
+AGENTS.md (entry point - always loaded first)
+    ↓ instructs agent to load
+secretary-context.json (structured data: folders, templates, registers, workflows)
+    ↓ references for details
+CORPORATION.md (entity-specific: name, numbers, addresses)
+SECRETARY.md (operational guide: procedures, conventions)
+WORKFLOWS.md (task procedures: step-by-step instructions)
+```
+
+This **lazy loading approach** means agents only load what they need for their current task, rather than consuming all context upfront.
+
 ### Automatic Discovery (Recommended)
 
-AI tools supporting the `AGENTS.md` standard will automatically discover instructions:
+AI tools supporting the `AGENTS.md` standard will automatically discover and follow these instructions:
 
 | Tool | How It Works |
 |------|--------------|
-| **Cursor** | Opens repo, auto-reads `AGENTS.md` |
-| **Claude Code** | Opens repo, auto-reads `AGENTS.md` |
-| **Other agents** | Point to `AGENTS.md` or `secretary-context.json` |
+| **Cursor** | Opens repo, auto-reads `AGENTS.md`, follows context chain |
+| **Claude Code** | Opens repo, auto-reads `AGENTS.md`, follows context chain |
+| **Other agents** | Point to `AGENTS.md` as primary entry point |
+
+### Context Files Reference
+
+| File | Purpose | When Loaded |
+|------|---------|-------------|
+| `AGENTS.md` | Entry point with role definition and instructions | Always (auto-discovered) |
+| `secretary-context.json` | Machine-readable structure, schemas, workflows | For any corporate task |
+| `CORPORATION.md` | Corporation name, numbers, addresses | When entity details needed |
+| `SECRETARY.md` | Detailed operational guidance | For complex procedures |
+| `WORKFLOWS.md` | Step-by-step task procedures | For specific corporate actions |
 
 ### Manual Configuration
 
-For agents without `AGENTS.md` support:
+For agents without `AGENTS.md` support, provide this system prompt:
 
-1. Point the agent to `secretary-context.json` as the primary context file
-2. Use `SECRETARY.md` for detailed operational instructions
-3. Reference `WORKFLOWS.md` for specific task procedures
-
-Example system prompt:
 ```
 You are the corporate secretary for [Corporation Name].
-Read AGENTS.md for instructions.
+
+Start by reading AGENTS.md for your role and instructions.
 Load secretary-context.json for structured repository context.
+Reference CORPORATION.md for entity-specific details.
 Follow SECRETARY.md for operational guidelines.
 Use WORKFLOWS.md for step-by-step procedures.
+
+Load context progressively based on the task at hand.
 ```
 
 ## First Corporate Actions
