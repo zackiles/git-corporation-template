@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5b8a84ba37b1d746db48c25828696403a1692088549fdb7ed55213a617489f82
-size 192
+This is a placeholder for a binary artifact.
