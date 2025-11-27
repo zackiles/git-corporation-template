@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d7de41a5b34c43e140a82d755d80bebd2a3f43da7d9ec6da8c828828c9337529
-size 138
+This directory stores signed shareholder documents for 2025.
+
+Expected files:
+- Signed meeting minutes
+- Signed resolutions
+- Proxy forms

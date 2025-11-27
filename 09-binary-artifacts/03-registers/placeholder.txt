@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9071805af8f2a31007506ab92ed8b78bc07de23905b052a329a62ca7c8f1e3d7
-size 131
+This directory stores signed register documents.
+
+Expected files:
+- Property deeds
+- Lease agreements
+- ISC registration documents

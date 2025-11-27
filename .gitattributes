@@ -1,4 +1,19 @@
-# Corporate binary artifacts - use Git LFS
-09-binary-artifacts/** filter=lfs diff=lfs merge=lfs -text
+# Corporate binary artifacts - use Git LFS for actual binary files only
+# PDFs, images, and other binary formats
+09-binary-artifacts/**/*.pdf filter=lfs diff=lfs merge=lfs -text
+09-binary-artifacts/**/*.png filter=lfs diff=lfs merge=lfs -text
+09-binary-artifacts/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+09-binary-artifacts/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+09-binary-artifacts/**/*.gif filter=lfs diff=lfs merge=lfs -text
+09-binary-artifacts/**/*.tiff filter=lfs diff=lfs merge=lfs -text
+09-binary-artifacts/**/*.doc filter=lfs diff=lfs merge=lfs -text
+09-binary-artifacts/**/*.docx filter=lfs diff=lfs merge=lfs -text
+09-binary-artifacts/**/*.xls filter=lfs diff=lfs merge=lfs -text
+09-binary-artifacts/**/*.xlsx filter=lfs diff=lfs merge=lfs -text
+
+# Text files in binary-artifacts should NOT be tracked by LFS
+09-binary-artifacts/**/*.txt text
+09-binary-artifacts/**/*.md text
+09-binary-artifacts/**/README.md text
 
 * text=auto
