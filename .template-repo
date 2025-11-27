@@ -1,0 +1,13 @@
+# Template Repository Marker
+
+This file indicates that this is the original template repository,
+not a fork being used for an actual corporation.
+
+When you fork this repository for your corporation:
+1. Delete this file
+2. Delete MAINTAINERS.md
+3. Follow the setup guide in FORK-SETUP.md
+
+This marker helps distinguish between:
+- Template maintainers working on improving the templates
+- Corporate secretaries managing a real minute book

@@ -40,7 +40,7 @@ Each PR should represent one logical corporate action where possible:
 
 ### PR Description
 
-Use the template in `templates/pull-request-description-template.md` for all corporate PRs.
+Use the template in `templates/_pull-request-description-template.md` for all corporate PRs.
 
 ### Linked Documents
 

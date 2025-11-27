@@ -1,6 +1,10 @@
 # Meetings and Resolutions
 
+> **Navigation**: [← Back to Root](../README.md) · [Workflows](../WORKFLOWS.md) · [Secretary Guide](../SECRETARY.md)
+
 This folder contains board and shareholder minutes and resolutions, organized by year.
+
+**This is where most corporate secretary work happens.**
 
 ## Directory Structure
 
@@ -69,3 +73,10 @@ Each Markdown file should link to its signed PDF using relative paths.
 5. After meeting, finalize and obtain signatures
 6. Store signed PDFs in `09-binary-artifacts/`
 7. Update Markdown files with links to signed versions
+
+## Related Workflows
+
+- [Board Resolution](../WORKFLOWS.md#board-resolution)
+- [Meeting Minutes](../WORKFLOWS.md#meeting-minutes)
+- [Annual General Meeting](../WORKFLOWS.md#annual-general-meeting-agm)
+- [Shareholder Resolution](../WORKFLOWS.md#shareholder-resolution-written)

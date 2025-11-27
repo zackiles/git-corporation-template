@@ -1,5 +1,7 @@
 # Share Issuances
 
+> **Navigation**: [← Capitalization](../README.md) · [← Root](../../README.md) · [Workflows](../../WORKFLOWS.md)
+
 This folder documents individual share issuance transactions.
 
 ## Checklist for Share Issuance
@@ -17,9 +19,9 @@ This folder documents individual share issuance transactions.
 
 ## Templates
 
-- `0000-templates/share-subscription-agreement-template.md`
-- `0000-templates/share-certificate-template.md`
-- `0000-templates/closing-agenda-template.md`
+- `0000-templates/_share-subscription-agreement-template.md`
+- `0000-templates/_share-certificate-template.md`
+- `0000-templates/_closing-agenda-template.md`
 
 ## Folder Structure
 
@@ -34,3 +36,7 @@ YYYY-description/
 ```
 
 Signed PDFs go in the corresponding `09-binary-artifacts/` path.
+
+## Related Workflows
+
+- [Share Issuance](../../WORKFLOWS.md#share-issuance)

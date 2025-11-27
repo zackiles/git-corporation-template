@@ -1,5 +1,7 @@
 # Finance and Tax
 
+> **Navigation**: [← Back to Root](../README.md) · [Workflows](../WORKFLOWS.md) · [Secretary Guide](../SECRETARY.md)
+
 This folder contains high-level finance and tax documentation, including board resolutions for financial matters.
 
 ## Contents
@@ -36,3 +38,13 @@ Actual financial statements and tax returns (PDFs) are stored in:
 | T2 return filing | Annual | CFO/Accountant |
 | HST returns | Per period | CFO/Accountant |
 | Bank mandate updates | As needed | Board |
+
+## Templates
+
+- `financial-statements/_financial-statement-approval-resolution-template.md`
+- `banking/_open-bank-account-resolution-template.md`
+
+## Related Workflows
+
+- [Approve Financial Statements](../WORKFLOWS.md#approve-financial-statements)
+- [Open Bank Account](../WORKFLOWS.md#open-bank-account)

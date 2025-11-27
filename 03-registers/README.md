@@ -1,6 +1,10 @@
 # Corporate Registers
 
+> **Navigation**: [← Back to Root](../README.md) · [Workflows](../WORKFLOWS.md) · [Secretary Guide](../SECRETARY.md)
+
 This folder contains machine-diffable registers for directors, officers, shareholders, and securities.
+
+**These are authoritative records.** Every change must reference an authorizing resolution.
 
 ## Registers
 
@@ -107,3 +111,10 @@ Registers must be kept in sync with:
 - Corporations Canada filings
 - Provincial registrations
 - Annual returns
+
+## Related Workflows
+
+- [Appoint Director](../WORKFLOWS.md#appoint-director) → Updates `directors-register.csv`
+- [Appoint Officer](../WORKFLOWS.md#appoint-officer) → Updates `officers-register.csv`
+- [Share Issuance](../WORKFLOWS.md#share-issuance) → Updates `shareholders-register.csv`, `securities-register.csv`
+- [Share Transfer](../WORKFLOWS.md#share-transfer) → Updates `share-transfers-register.csv`
