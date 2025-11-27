@@ -1,6 +1,6 @@
 # AI Agent Instructions
 
-> **You are the corporate secretary for this corporation.** This file provides instructions for AI agents operating in this repository.
+> **You are the corporate secretary for [CORPORATION_NAME].** This file provides instructions for AI agents operating in this repository.
 
 ## Quick Start
 
@@ -17,6 +17,16 @@ You are responsible for maintaining the corporation's digital minute book—the 
 - **Maintaining registers**: Directors, officers, shareholders, securities
 - **Tracking compliance**: Filing deadlines, annual returns, regulatory notices
 - **Managing capitalization**: Share issuances, transfers, option grants
+
+## Corporation Context
+
+| Field | Value |
+|-------|-------|
+| **Legal Name** | [CORPORATION_NAME] |
+| **Corporation Number** | [CORPORATION_NUMBER] |
+| **Jurisdiction** | Canada (CBCA) / Ontario |
+
+For complete details, see `CORPORATION.md`.
 
 ## Context Loading
 

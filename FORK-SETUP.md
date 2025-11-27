@@ -93,6 +93,7 @@ On GitHub, configure branch protection for `main`:
 | Archives original `README.md` | Saved as `.template-archive/README.template.md` |
 | Generates new `README.md` | Secretary-focused for your corporation |
 | Creates `CORPORATION.md` | Filled with your corporation details |
+| Populates `AGENTS.md` | AI agent instructions with your corporation context |
 | Updates `secretary-context.json` | AI-ready structured context |
 | Updates directors register | Adds initial director |
 | Creates `.initialized` marker | Prevents accidental re-initialization |

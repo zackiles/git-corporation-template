@@ -19,7 +19,7 @@
 |--------|---------------|-------------|
 | **State** | Uninitialized | Initialized |
 | **`.initialized` marker** | Absent | Present |
-| **`AGENTS.md`** | Present (generic) | Present (unchanged) |
+| **`AGENTS.md`** | Generic placeholders | Populated with corporation name/number |
 | **`secretary-context.json`** | Stub (nulls) | Populated |
 | **`CORPORATION.md`** | Placeholder | Filled in |
 | **`README.md`** | GitHub-focused | Secretary-focused |

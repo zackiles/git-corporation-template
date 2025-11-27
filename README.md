@@ -47,7 +47,7 @@ The setup wizard will:
 - Ask for your corporation details (name, numbers, address)
 - Generate `CORPORATION.md` with your entity information
 - Populate `secretary-context.json` for AI agents
-- Create `AGENTS.md` with agent instructions
+- Populate `AGENTS.md` with your corporation context
 - Initialize the directors register
 - Archive template-only documentation
 
