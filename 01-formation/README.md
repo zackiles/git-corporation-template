@@ -30,11 +30,21 @@ Signed versions (PDFs) of all formation documents are stored in:
 
 Each Markdown document should link to its corresponding signed PDF using relative paths.
 
+## Templates
+
+| Template | Purpose |
+|----------|---------|
+| `bylaws/_001-general-by-law-template.md` | Corporate bylaws |
+| `organizational-resolutions/_organizational-resolution-template.md` | "Birth certificate" resolution |
+
 ## Key Documents Needed
 
 Per Canadian corporate law, these formation documents are mandatory:
 
 1. **Bylaws** - Defines how the corporation operates
-2. **Initial Directors Resolution** - Acknowledges first directors
-3. **Organizational Resolution** - The "birth certificate" adopting bylaws, appointing officers, authorizing share issuance
-4. **Founder Share Issuance Resolution** - Specifies initial share allocation
+2. **Organizational Resolution** - The "birth certificate" adopting bylaws, appointing officers, authorizing share issuance
+
+## Related Workflows
+
+- [Initial Setup](../WORKFLOWS.md#initial-setup) - Complete first-time setup
+- [Step 3: Organizational Resolution](../WORKFLOWS.md#step-3-create-organizational-resolution) - Detailed procedure

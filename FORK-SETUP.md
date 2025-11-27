@@ -20,8 +20,30 @@ cd [your-repo-name]
 
 ### 2. Run Setup Script
 
+**Interactive mode:**
 ```bash
 npm run setup
+```
+
+**Or with a config file (for automation):**
+```bash
+# Create config file
+cat > corp-config.json << 'EOF'
+{
+  "name": "Your Corporation Inc.",
+  "federalNumber": "1234567-8",
+  "provincialNumber": "ON-9876543",
+  "incorporationDate": "2025-01-15",
+  "fiscalYearEnd": "December 31",
+  "registeredAddress": "123 Main St, Toronto ON M5V 1A1",
+  "initialDirector": {
+    "name": "Director Name",
+    "address": "456 Oak Ave, Toronto ON M4M 2B2"
+  }
+}
+EOF
+
+npm run setup -- --config corp-config.json
 ```
 
 The setup wizard will:

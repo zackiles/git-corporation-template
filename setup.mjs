@@ -7,8 +7,9 @@
  * Transforms the repository from template state to secretary-ready state.
  * 
  * Usage:
- *   npm run setup              # Interactive setup
- *   npm run setup -- --validate    # Validate current state
+ *   npm run setup                    # Interactive setup
+ *   npm run setup -- --config corp.json  # Non-interactive with config file
+ *   npm run setup -- --validate      # Validate current state
  *   npm run setup -- --generate-context  # Regenerate secretary-context.json
  */
 
@@ -197,6 +198,7 @@ function generateTemplateIndex() {
   const templates = [
     // Formation
     { path: '01-formation/bylaws/_001-general-by-law-template.md', name: 'General By-Law', category: 'formation' },
+    { path: '01-formation/organizational-resolutions/_organizational-resolution-template.md', name: 'Organizational Resolution', category: 'formation' },
     
     // Constating Documents
     { path: '02-constating-documents/amendments/_amendment-template.md', name: 'Amendment', category: 'governance' },
@@ -548,65 +550,7 @@ async function interactiveSetup() {
   console.log('\n─────────────────────────────────────────────────────────────────');
   console.log('Setting up repository...\n');
   
-  // 1. Archive template-specific files
-  console.log('📦 Archiving template files...');
-  ensureDir(join(ROOT, CONFIG.archiveDir));
-  for (const file of CONFIG.filesToArchive) {
-    const srcPath = join(ROOT, file);
-    if (existsSync(srcPath)) {
-      const destPath = join(ROOT, CONFIG.archiveDir, file);
-      ensureDir(dirname(destPath));
-      renameSync(srcPath, destPath);
-      console.log(`   Archived: ${file}`);
-    }
-  }
-  
-  // 2. Generate and write secretary-focused README
-  console.log('📝 Generating secretary-focused README...');
-  const readmePath = join(ROOT, 'README.md');
-  const originalReadme = existsSync(readmePath) ? readFileSync(readmePath, 'utf-8') : '';
-  
-  // Archive original README
-  writeFileSync(join(ROOT, CONFIG.archiveDir, 'README.template.md'), originalReadme);
-  
-  // Write new README
-  writeFileSync(readmePath, generateSecretaryReadme(corporation));
-  
-  // 3. Generate CORPORATION.md
-  console.log('📝 Generating CORPORATION.md...');
-  writeFileSync(join(ROOT, CONFIG.corporationFile), generateCorporationFile(corporation));
-  
-  // 4. Update directors register with initial director
-  if (corporation.initialDirector?.name) {
-    console.log('📊 Updating directors register...');
-    const directorsPath = join(ROOT, '03-registers/directors-register.csv');
-    const directorsHeader = 'id,full_name,address,appointment_date,cessation_date,appointing_resolution';
-    const directorRow = `D001,"${corporation.initialDirector.name}","${corporation.initialDirector.address || ''}",${corporation.incorporationDate || ''},,`;
-    writeFileSync(directorsPath, directorsHeader + '\n' + directorRow + '\n');
-  }
-  
-  // 5. Generate secretary context
-  console.log('🤖 Generating secretary-context.json...');
-  const context = generateSecretaryContext(corporation);
-  writeJSON(join(ROOT, CONFIG.contextFile), context);
-  
-  // 6. Create initialization marker
-  console.log('✓  Creating initialization marker...');
-  writeFileSync(join(ROOT, CONFIG.markerFile), JSON.stringify({
-    initializedAt: new Date().toISOString(),
-    templateVersion: getVersion(),
-    corporationName: corporation.name,
-  }, null, 2));
-  
-  console.log('\n═══════════════════════════════════════════════════════════════');
-  console.log('✅ Setup complete!\n');
-  console.log('Next steps:');
-  console.log('  1. Add incorporation documents to 09-binary-artifacts/01-formation/');
-  console.log('  2. Review and complete CORPORATION.md');
-  console.log('  3. Create organizational resolution (see WORKFLOWS.md#initial-setup)');
-  console.log('  4. Commit these changes: git add -A && git commit -m "[corp] Initialize minute book"');
-  console.log('\nFor AI agents: Load secretary-context.json for structured context.');
-  console.log('For humans: Start with SECRETARY.md for detailed guidance.\n');
+  await performSetup(corporation);
 }
 
 async function validateState() {
@@ -680,6 +624,149 @@ async function regenerateContext() {
 }
 
 // ============================================================================
+// Non-Interactive Setup
+// ============================================================================
+
+async function configFileSetup(configPath) {
+  console.log('\n╔══════════════════════════════════════════════════════════════╗');
+  console.log('║        Corporate Minute Book — Config File Setup              ║');
+  console.log('╚══════════════════════════════════════════════════════════════╝\n');
+  
+  // Check if already initialized
+  if (existsSync(join(ROOT, CONFIG.markerFile))) {
+    console.log('⚠️  This repository has already been initialized.');
+    console.log('   Delete .initialized to reinitialize.\n');
+    process.exit(1);
+  }
+  
+  // Read config file
+  const fullConfigPath = configPath.startsWith('/') ? configPath : join(ROOT, configPath);
+  if (!existsSync(fullConfigPath)) {
+    console.error(`❌ Config file not found: ${configPath}`);
+    console.log('\nCreate a config file with this structure:');
+    console.log(JSON.stringify({
+      name: "Corporation Name Inc.",
+      federalNumber: "1234567-8",
+      provincialNumber: "ON-9876543",
+      incorporationDate: "2025-01-15",
+      fiscalYearEnd: "December 31",
+      registeredAddress: "123 Main Street, City ON A1B 2C3",
+      initialDirector: {
+        name: "Director Name",
+        address: "456 Oak Avenue, City ON D4E 5F6"
+      }
+    }, null, 2));
+    process.exit(1);
+  }
+  
+  let config;
+  try {
+    config = JSON.parse(readFileSync(fullConfigPath, 'utf-8'));
+  } catch (e) {
+    console.error(`❌ Invalid JSON in config file: ${e.message}`);
+    process.exit(1);
+  }
+  
+  // Validate required fields
+  const requiredFields = ['name'];
+  for (const field of requiredFields) {
+    if (!config[field]) {
+      console.error(`❌ Missing required field: ${field}`);
+      process.exit(1);
+    }
+  }
+  
+  const corporation = {
+    name: config.name || '',
+    federalNumber: config.federalNumber || '',
+    provincialNumber: config.provincialNumber || '',
+    incorporationDate: config.incorporationDate || '',
+    fiscalYearEnd: config.fiscalYearEnd || '',
+    registeredAddress: config.registeredAddress || '',
+    jurisdiction: {
+      federal: 'Canada (CBCA)',
+      provincial: 'Ontario',
+    },
+    shareStructure: config.shareStructure || {
+      classes: ['Common'],
+      unlimited: true,
+    },
+    initialDirector: config.initialDirector || {
+      name: '',
+      address: '',
+    },
+    notes: config.notes || '',
+  };
+  
+  console.log(`Setting up repository for: ${corporation.name}\n`);
+  
+  // Run the same setup steps as interactive
+  await performSetup(corporation);
+}
+
+async function performSetup(corporation) {
+  // 1. Archive template-specific files
+  console.log('📦 Archiving template files...');
+  ensureDir(join(ROOT, CONFIG.archiveDir));
+  for (const file of CONFIG.filesToArchive) {
+    const srcPath = join(ROOT, file);
+    if (existsSync(srcPath)) {
+      const destPath = join(ROOT, CONFIG.archiveDir, file);
+      ensureDir(dirname(destPath));
+      renameSync(srcPath, destPath);
+      console.log(`   Archived: ${file}`);
+    }
+  }
+  
+  // 2. Generate and write secretary-focused README
+  console.log('📝 Generating secretary-focused README...');
+  const readmePath = join(ROOT, 'README.md');
+  const originalReadme = existsSync(readmePath) ? readFileSync(readmePath, 'utf-8') : '';
+  
+  // Archive original README
+  writeFileSync(join(ROOT, CONFIG.archiveDir, 'README.template.md'), originalReadme);
+  
+  // Write new README
+  writeFileSync(readmePath, generateSecretaryReadme(corporation));
+  
+  // 3. Generate CORPORATION.md
+  console.log('📝 Generating CORPORATION.md...');
+  writeFileSync(join(ROOT, CONFIG.corporationFile), generateCorporationFile(corporation));
+  
+  // 4. Update directors register with initial director
+  if (corporation.initialDirector?.name) {
+    console.log('📊 Updating directors register...');
+    const directorsPath = join(ROOT, '03-registers/directors-register.csv');
+    const directorsHeader = 'id,full_name,address,appointment_date,cessation_date,appointing_resolution';
+    const directorRow = `D001,"${corporation.initialDirector.name}","${corporation.initialDirector.address || ''}",${corporation.incorporationDate || ''},,`;
+    writeFileSync(directorsPath, directorsHeader + '\n' + directorRow + '\n');
+  }
+  
+  // 5. Create initialization marker (before context so initialized=true)
+  console.log('✓  Creating initialization marker...');
+  writeFileSync(join(ROOT, CONFIG.markerFile), JSON.stringify({
+    initializedAt: new Date().toISOString(),
+    templateVersion: getVersion(),
+    corporationName: corporation.name,
+  }, null, 2));
+  
+  // 6. Generate secretary context (after marker so initialized=true)
+  console.log('🤖 Generating secretary-context.json...');
+  const context = generateSecretaryContext(corporation);
+  writeJSON(join(ROOT, CONFIG.contextFile), context);
+  
+  console.log('\n═══════════════════════════════════════════════════════════════');
+  console.log('✅ Setup complete!\n');
+  console.log('Next steps:');
+  console.log('  1. Add incorporation documents to 09-binary-artifacts/01-formation/');
+  console.log('  2. Review and complete CORPORATION.md');
+  console.log('  3. Create organizational resolution (see WORKFLOWS.md#initial-setup)');
+  console.log('  4. Commit these changes: git add -A && git commit -m "[corp] Initialize minute book"');
+  console.log('\nFor AI agents: Load secretary-context.json for structured context.');
+  console.log('For humans: Start with SECRETARY.md for detailed guidance.\n');
+}
+
+// ============================================================================
 // Entry Point
 // ============================================================================
 
@@ -689,19 +776,43 @@ if (args.includes('--validate')) {
   validateState();
 } else if (args.includes('--generate-context')) {
   regenerateContext();
+} else if (args.includes('--config')) {
+  const configIndex = args.indexOf('--config');
+  const configPath = args[configIndex + 1];
+  if (!configPath) {
+    console.error('❌ --config requires a file path argument');
+    process.exit(1);
+  }
+  configFileSetup(configPath);
 } else if (args.includes('--help') || args.includes('-h')) {
   console.log(`
 Corporate Minute Book Setup
 
 Usage:
-  npm run setup                  Interactive setup wizard
-  npm run setup -- --validate    Validate repository state
-  npm run setup -- --generate-context  Regenerate secretary-context.json
+  npm run setup                       Interactive setup wizard
+  npm run setup -- --config FILE      Non-interactive setup with JSON config
+  npm run setup -- --validate         Validate repository state
+  npm run setup -- --generate-context Regenerate secretary-context.json
 
 Options:
   --help, -h    Show this help message
   --validate    Check repository state without modifying
+  --config FILE Use JSON config file for non-interactive setup
   --generate-context  Regenerate the AI context file
+
+Config File Format:
+  {
+    "name": "Corporation Name Inc.",
+    "federalNumber": "1234567-8",
+    "provincialNumber": "ON-9876543",
+    "incorporationDate": "2025-01-15",
+    "fiscalYearEnd": "December 31",
+    "registeredAddress": "123 Main Street, City ON A1B 2C3",
+    "initialDirector": {
+      "name": "Director Name",
+      "address": "456 Oak Avenue, City ON D4E 5F6"
+    }
+  }
 `);
 } else {
   interactiveSetup();

@@ -87,19 +87,38 @@ D001,"[Director Name]","[Address]",[Incorporation Date],,
 
 **Action**: Create the "birth certificate" resolution that:
 - Adopts bylaws
-- Appoints officers
-- Authorizes share issuance
-- Sets up banking authority
+- Appoints officers (President, Secretary, Treasurer)
+- Sets fiscal year end
+- Authorizes banking
+- Authorizes share issuance to founders
 
 **Steps**:
-1. Copy `01-formation/bylaws/_001-general-by-law-template.md` → `01-formation/bylaws/001-general-by-law.md`
-2. Customize bylaws for your corporation
-3. Create organizational resolution in `01-formation/organizational-resolutions/`
-4. Reference bylaw adoption in resolution
+1. **Prepare bylaws first**:
+   - Copy `01-formation/bylaws/_001-general-by-law-template.md` → `01-formation/bylaws/001-general-by-law.md`
+   - Fill in placeholders with values from `CORPORATION.md`:
+     - `[CORPORATION NAME]` → Corporation legal name
+     - `[NUMBER]` for directors → typically `1` minimum, `5` maximum for small corps
+     - `[NUMBER]` for notice periods → typically `48` hours for directors, `21` days for shareholders
+     - `[PERCENTAGE]` for quorum → typically `50`% 
+     - `[DATE]` for fiscal year → from `CORPORATION.md`
 
-**Template**: Use `04-meetings-and-resolutions/board/0000-templates/_board-resolution-template.md`
+2. **Create organizational resolution**:
+   - Copy `01-formation/organizational-resolutions/_organizational-resolution-template.md`
+   - Save as `01-formation/organizational-resolutions/R[YYYY]-01-organizational.md`
+   - Fill in all placeholders from `CORPORATION.md`
+
+3. **Create branch and PR**:
+   - Branch: `corp/organizational-resolution-YYYY-MM`
+   - Commit message: `[corp] Organizational resolution - adopt bylaws, appoint officers, authorize shares`
+
+**Template**: `01-formation/organizational-resolutions/_organizational-resolution-template.md`
 
 **Branch**: `corp/organizational-resolution-YYYY-MM`
+
+**Registers to update after approval**:
+- `03-registers/officers-register.csv` (Step 4)
+- `03-registers/shareholders-register.csv` (Step 5)
+- `03-registers/securities-register.csv` (Step 5)
 
 ---
 
