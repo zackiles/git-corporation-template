@@ -40,6 +40,8 @@ cd my-company-minute-book
 ### 2. Run Setup
 
 ```bash
+node cli.mjs setup
+# or using npm script:
 npm run setup
 ```
 

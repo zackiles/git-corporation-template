@@ -1,6 +1,6 @@
 # Post-Fork Setup Guide
 
-> **Quick Start**: After forking/cloning, run `npm run setup` to initialize your AI-powered corporate minute book.
+> **Quick Start**: After forking/cloning, run `node cli.mjs setup` (or `npm run setup`) to initialize your AI-powered corporate minute book.
 
 ## Prerequisites
 
@@ -23,6 +23,8 @@ cd [your-repo-name]
 
 **Interactive mode:**
 ```bash
+node cli.mjs setup
+# or using npm:
 npm run setup
 ```
 
@@ -44,7 +46,7 @@ cat > corp-config.json << 'EOF'
 }
 EOF
 
-npm run setup -- --config corp-config.json
+node cli.mjs setup --config corp-config.json
 ```
 
 The setup wizard will:
@@ -114,7 +116,7 @@ If you prefer not to use the setup script:
 
 4. Replace `AGENTS.md` with secretary-focused content:
    - The template contains maintainer instructions (not relevant for your corporation)
-   - Copy the secretary-focused content from `setup.mjs` (`generateAgentsFile` function)
+   - Copy the secretary-focused content from `.tools/setup.mjs` (`generateAgentsFile` function)
    - Replace `[Corporation Name]` with your corporation's legal name
    - Replace `[Corporation Number]` with your federal corporation number
 
@@ -218,7 +220,7 @@ git checkout upstream/main -- path/to/updated/template
 The `.initialized` marker exists. To reinitialize:
 ```bash
 rm .initialized
-npm run setup
+node cli.mjs setup
 ```
 
 ### Setup script not found
@@ -231,6 +233,8 @@ node --version  # Should be v18.0.0 or higher
 ### Need to validate state
 
 ```bash
+node cli.mjs validate
+# or using npm:
 npm run validate
 ```
 
@@ -238,4 +242,4 @@ This checks for missing files and reports issues.
 
 ---
 
-*Delete this file after completing setup, or find it archived in `.template-archive/` after running `npm run setup`.*
+*Delete this file after completing setup, or find it archived in `.template-archive/` after running `node cli.mjs setup`.*

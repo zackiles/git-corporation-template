@@ -1,29 +1,24 @@
 #!/usr/bin/env node
 
 /**
- * Corporate Minute Book Setup Script
+ * Setup Tool
  * 
  * Initializes a forked/cloned corporate minute book template for a specific corporation.
  * Transforms the repository from template state to secretary-ready state.
  * 
  * Usage:
- *   npm run setup                    # Interactive setup
- *   npm run setup -- --config corp.json  # Non-interactive with config file
- *   npm run setup -- --validate      # Validate current state
- *   npm run setup -- --generate-context  # Regenerate secretary-context.json
+ *   node cli.mjs setup                    Interactive setup
+ *   node cli.mjs setup --config corp.json Non-interactive with config file
+ *   node cli.mjs setup --generate-context Regenerate secretary-context.json
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync, readdirSync, renameSync, copyFileSync, statSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, renameSync } from 'fs';
 import { join, dirname, relative } from 'path';
 import { createInterface } from 'readline';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = __dirname;
-
-// ============================================================================
-// Configuration
-// ============================================================================
+const ROOT = join(__dirname, '..');
 
 const CONFIG = {
   markerFile: '.initialized',
@@ -39,20 +34,13 @@ const CONFIG = {
     '.template-repo',
   ],
   
-  filesToRemove: [
-    // Files that get archived, not removed
-  ],
+  filesToRemove: [],
   
-  // Files that should be replaced with secretary-focused versions
   filesToReplace: {
     'README.md': generateSecretaryReadme,
     'AGENTS.md': generateAgentsFile,
   },
 };
-
-// ============================================================================
-// Utility Functions
-// ============================================================================
 
 function readJSON(path) {
   try {
@@ -104,10 +92,6 @@ function getVersion() {
     return '0.0.0';
   }
 }
-
-// ============================================================================
-// Context Generation
-// ============================================================================
 
 function generateFolderIndex() {
   const folders = {
@@ -197,23 +181,19 @@ function generateFolderIndex() {
 
 function generateTemplateIndex() {
   const templates = [
-    // Formation
     { path: '01-formation/bylaws/_001-general-by-law-template.md', name: 'General By-Law', category: 'formation' },
     { path: '01-formation/organizational-resolutions/_organizational-resolution-template.md', name: 'Organizational Resolution', category: 'formation' },
     
-    // Constating Documents
     { path: '02-constating-documents/amendments/_amendment-template.md', name: 'Amendment', category: 'governance' },
     { path: '02-constating-documents/policies/_dividend-policy-template.md', name: 'Dividend Policy', category: 'governance' },
     { path: '02-constating-documents/policies/_signing-authority-policy-template.md', name: 'Signing Authority Policy', category: 'governance' },
     { path: '02-constating-documents/shareholders-agreements/_unanimous-shareholders-agreement-template.md', name: 'Unanimous Shareholders Agreement', category: 'governance' },
     
-    // Meetings & Resolutions
     { path: '04-meetings-and-resolutions/board/0000-templates/_board-meeting-minutes-template.md', name: 'Board Meeting Minutes', category: 'meetings' },
     { path: '04-meetings-and-resolutions/board/0000-templates/_board-resolution-template.md', name: 'Board Resolution', category: 'meetings' },
     { path: '04-meetings-and-resolutions/shareholders/0000-templates/_shareholder-meeting-minutes-template.md', name: 'Shareholder Meeting Minutes', category: 'meetings' },
     { path: '04-meetings-and-resolutions/shareholders/0000-templates/_shareholder-resolution-template.md', name: 'Shareholder Resolution', category: 'meetings' },
     
-    // Capitalization
     { path: '05-capitalization/cap-table/_cap-table-template.md', name: 'Cap Table', category: 'capitalization' },
     { path: '05-capitalization/options-and-ESOP/_esop-plan-template.md', name: 'ESOP Plan', category: 'capitalization' },
     { path: '05-capitalization/options-and-ESOP/_option-grant-template.md', name: 'Option Grant', category: 'capitalization' },
@@ -221,17 +201,14 @@ function generateTemplateIndex() {
     { path: '05-capitalization/share-issuances/0000-templates/_share-certificate-template.md', name: 'Share Certificate', category: 'capitalization' },
     { path: '05-capitalization/share-issuances/0000-templates/_share-subscription-agreement-template.md', name: 'Share Subscription Agreement', category: 'capitalization' },
     
-    // Finance
     { path: '07-finance-and-tax/banking/_open-bank-account-resolution-template.md', name: 'Open Bank Account Resolution', category: 'finance' },
     { path: '07-finance-and-tax/financial-statements/_financial-statement-approval-resolution-template.md', name: 'Financial Statement Approval', category: 'finance' },
     
-    // Commercial & IP
     { path: '08-commercial-and-ip/hr/_employee-ip-and-confidentiality-template.md', name: 'Employee IP & Confidentiality', category: 'commercial' },
     { path: '08-commercial-and-ip/ip/assignments/_ip-assignment-template.md', name: 'IP Assignment', category: 'commercial' },
     { path: '08-commercial-and-ip/key-contracts/0000-templates/_msa-template.md', name: 'Master Service Agreement', category: 'commercial' },
     { path: '08-commercial-and-ip/key-contracts/0000-templates/_nda-template.md', name: 'Non-Disclosure Agreement', category: 'commercial' },
     
-    // Meta
     { path: '99-meta/templates/_changelog-entry-template.md', name: 'Changelog Entry', category: 'meta' },
     { path: '99-meta/templates/_pull-request-description-template.md', name: 'PR Description', category: 'meta' },
   ];
@@ -383,10 +360,6 @@ function generateSecretaryContext(corporation = null) {
   
   return context;
 }
-
-// ============================================================================
-// File Generators
-// ============================================================================
 
 function generateSecretaryReadme(corporation) {
   const corpName = corporation?.name || '[Corporation Name]';
@@ -641,16 +614,11 @@ ${corporation.notes || '_No additional notes._'}
 `;
 }
 
-// ============================================================================
-// Main Functions
-// ============================================================================
-
 async function interactiveSetup() {
   console.log('\n╔══════════════════════════════════════════════════════════════╗');
   console.log('║        Corporate Minute Book — Initial Setup                  ║');
   console.log('╚══════════════════════════════════════════════════════════════╝\n');
   
-  // Check if already initialized
   if (existsSync(join(ROOT, CONFIG.markerFile))) {
     console.log('⚠️  This repository has already been initialized.');
     const proceed = await prompt('Do you want to reinitialize? This will reset corporation details. (yes/no): ');
@@ -691,67 +659,9 @@ async function interactiveSetup() {
   await performSetup(corporation);
 }
 
-async function validateState() {
-  console.log('\n🔍 Validating repository state...\n');
-  
-  const issues = [];
-  const context = readJSON(join(ROOT, CONFIG.contextFile));
-  
-  // Check if initialized
-  const initialized = existsSync(join(ROOT, CONFIG.markerFile));
-  console.log(`Initialized: ${initialized ? '✓' : '✗ (run npm run setup)'}`);
-  
-  // Check required files
-  const requiredFiles = ['AGENTS.md', 'SECRETARY.md', 'WORKFLOWS.md', CONFIG.contextFile];
-  for (const file of requiredFiles) {
-    const exists = existsSync(join(ROOT, file));
-    console.log(`${file}: ${exists ? '✓' : '✗'}`);
-    if (!exists) issues.push(`Missing required file: ${file}`);
-  }
-  
-  // Check registers
-  if (context?.registers) {
-    console.log('\nRegisters:');
-    for (const reg of context.registers) {
-      const exists = existsSync(join(ROOT, reg.path));
-      console.log(`  ${reg.name}: ${exists ? '✓' : '✗'}`);
-      if (!exists) issues.push(`Missing register: ${reg.path}`);
-    }
-  }
-  
-  // Check templates
-  if (context?.templates) {
-    console.log('\nTemplates:');
-    let templateCount = 0;
-    let missingCount = 0;
-    for (const tpl of context.templates) {
-      const exists = existsSync(join(ROOT, tpl.path));
-      if (!exists) {
-        missingCount++;
-        issues.push(`Missing template: ${tpl.path}`);
-      } else {
-        templateCount++;
-      }
-    }
-    console.log(`  Found: ${templateCount}, Missing: ${missingCount}`);
-  }
-  
-  console.log('\n' + '─'.repeat(60));
-  if (issues.length === 0) {
-    console.log('✅ Repository state is valid.\n');
-  } else {
-    console.log(`⚠️  Found ${issues.length} issue(s):\n`);
-    for (const issue of issues) {
-      console.log(`   • ${issue}`);
-    }
-    console.log('');
-  }
-}
-
 async function regenerateContext() {
   console.log('\n🔄 Regenerating secretary-context.json...\n');
   
-  // Try to preserve corporation data if it exists
   const existingContext = readJSON(join(ROOT, CONFIG.contextFile));
   const corporation = existingContext?.corporation || null;
   
@@ -761,23 +671,17 @@ async function regenerateContext() {
   console.log('✅ Context regenerated.\n');
 }
 
-// ============================================================================
-// Non-Interactive Setup
-// ============================================================================
-
 async function configFileSetup(configPath) {
   console.log('\n╔══════════════════════════════════════════════════════════════╗');
   console.log('║        Corporate Minute Book — Config File Setup              ║');
   console.log('╚══════════════════════════════════════════════════════════════╝\n');
   
-  // Check if already initialized
   if (existsSync(join(ROOT, CONFIG.markerFile))) {
     console.log('⚠️  This repository has already been initialized.');
     console.log('   Delete .initialized to reinitialize.\n');
     process.exit(1);
   }
   
-  // Read config file
   const fullConfigPath = configPath.startsWith('/') ? configPath : join(ROOT, configPath);
   if (!existsSync(fullConfigPath)) {
     console.error(`❌ Config file not found: ${configPath}`);
@@ -805,7 +709,6 @@ async function configFileSetup(configPath) {
     process.exit(1);
   }
   
-  // Validate required fields
   const requiredFields = ['name'];
   for (const field of requiredFields) {
     if (!config[field]) {
@@ -838,12 +741,10 @@ async function configFileSetup(configPath) {
   
   console.log(`Setting up repository for: ${corporation.name}\n`);
   
-  // Run the same setup steps as interactive
   await performSetup(corporation);
 }
 
 async function performSetup(corporation) {
-  // 1. Archive template-specific files
   console.log('📦 Archiving template files...');
   ensureDir(join(ROOT, CONFIG.archiveDir));
   for (const file of CONFIG.filesToArchive) {
@@ -856,26 +757,20 @@ async function performSetup(corporation) {
     }
   }
   
-  // 2. Generate and write secretary-focused README
   console.log('📝 Generating secretary-focused README...');
   const readmePath = join(ROOT, 'README.md');
   const originalReadme = existsSync(readmePath) ? readFileSync(readmePath, 'utf-8') : '';
   
-  // Archive original README
   writeFileSync(join(ROOT, CONFIG.archiveDir, 'README.template.md'), originalReadme);
   
-  // Write new README
   writeFileSync(readmePath, generateSecretaryReadme(corporation));
   
-  // 3. Generate CORPORATION.md
   console.log('📝 Generating CORPORATION.md...');
   writeFileSync(join(ROOT, CONFIG.corporationFile), generateCorporationFile(corporation));
   
-  // 4. Generate AGENTS.md with corporation context
   console.log('🤖 Generating AGENTS.md...');
   writeFileSync(join(ROOT, 'AGENTS.md'), generateAgentsFile(corporation));
   
-  // 5. Update directors register with initial director
   if (corporation.initialDirector?.name) {
     console.log('📊 Updating directors register...');
     const directorsPath = join(ROOT, '03-registers/directors-register.csv');
@@ -884,7 +779,6 @@ async function performSetup(corporation) {
     writeFileSync(directorsPath, directorsHeader + '\n' + directorRow + '\n');
   }
   
-  // 6. Create initialization marker (before context so initialized=true)
   console.log('✓  Creating initialization marker...');
   writeFileSync(join(ROOT, CONFIG.markerFile), JSON.stringify({
     initializedAt: new Date().toISOString(),
@@ -892,7 +786,6 @@ async function performSetup(corporation) {
     corporationName: corporation.name,
   }, null, 2));
   
-  // 7. Generate secretary context (after marker so initialized=true)
   console.log('🤖 Generating secretary-context.json...');
   const context = generateSecretaryContext(corporation);
   writeJSON(join(ROOT, CONFIG.contextFile), context);
@@ -908,39 +801,19 @@ async function performSetup(corporation) {
   console.log('For humans: Start with SECRETARY.md for detailed guidance.\n');
 }
 
-// ============================================================================
-// Entry Point
-// ============================================================================
-
-const args = process.argv.slice(2);
-
-if (args.includes('--validate')) {
-  validateState();
-} else if (args.includes('--generate-context')) {
-  regenerateContext();
-} else if (args.includes('--config')) {
-  const configIndex = args.indexOf('--config');
-  const configPath = args[configIndex + 1];
-  if (!configPath) {
-    console.error('❌ --config requires a file path argument');
-    process.exit(1);
-  }
-  configFileSetup(configPath);
-} else if (args.includes('--help') || args.includes('-h')) {
+function showHelp() {
   console.log(`
-Corporate Minute Book Setup
+Setup Tool — Corporate Minute Book
 
 Usage:
-  npm run setup                       Interactive setup wizard
-  npm run setup -- --config FILE      Non-interactive setup with JSON config
-  npm run setup -- --validate         Validate repository state
-  npm run setup -- --generate-context Regenerate secretary-context.json
+  node cli.mjs setup                       Interactive setup wizard
+  node cli.mjs setup --config FILE         Non-interactive setup with JSON config
+  node cli.mjs setup --generate-context    Regenerate secretary-context.json
 
 Options:
-  --help, -h    Show this help message
-  --validate    Check repository state without modifying
-  --config FILE Use JSON config file for non-interactive setup
-  --generate-context  Regenerate the AI context file
+  --help, -h         Show this help message
+  --config FILE      Use JSON config file for non-interactive setup
+  --generate-context Regenerate the AI context file
 
 Config File Format:
   {
@@ -956,6 +829,22 @@ Config File Format:
     }
   }
 `);
+}
+
+const args = process.argv.slice(2);
+
+if (args.includes('--help') || args.includes('-h')) {
+  showHelp();
+} else if (args.includes('--generate-context')) {
+  regenerateContext();
+} else if (args.includes('--config')) {
+  const configIndex = args.indexOf('--config');
+  const configPath = args[configIndex + 1];
+  if (!configPath) {
+    console.error('❌ --config requires a file path argument');
+    process.exit(1);
+  }
+  configFileSetup(configPath);
 } else {
   interactiveSetup();
 }

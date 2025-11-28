@@ -4,9 +4,10 @@
   "description": "Git-based corporate minute book template for Canadian corporations",
   "type": "module",
   "scripts": {
-    "setup": "node setup.mjs",
-    "validate": "node setup.mjs --validate",
-    "context": "node setup.mjs --generate-context"
+    "cli": "node cli.mjs",
+    "setup": "node cli.mjs setup",
+    "validate": "node cli.mjs validate",
+    "context": "node cli.mjs setup --generate-context"
   },
   "keywords": [
     "corporate",

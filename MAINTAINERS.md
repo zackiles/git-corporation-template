@@ -9,7 +9,10 @@
 | `VERSION` | Semantic version of template | On release |
 | `AGENTS.md` | AI agent discovery/instructions | When agent behavior changes |
 | `secretary-context.json` | AI agent context (stub) | When structure changes |
-| `setup.mjs` | Initialization script | When setup flow changes |
+| `cli.mjs` | CLI entrypoint for all tools | When adding tool routing |
+| `.tools/setup.mjs` | Setup/initialization tool | When setup flow changes |
+| `.tools/validate.mjs` | Validation tool | When adding checks |
+| `.tools/_template.mjs` | Template for new tools | Reference |
 | `SECRETARY.md` | Secretary operating guide | When workflows change |
 | `WORKFLOWS.md` | Task procedures | When adding/changing workflows |
 
@@ -53,7 +56,7 @@ MAJOR.MINOR.PATCH
 If you make breaking changes:
 1. Document migration steps
 2. Consider providing a migration script
-3. Update setup.mjs if initialization flow changes
+3. Update `.tools/setup.mjs` if initialization flow changes
 
 ## Secretary Context File
 
@@ -77,7 +80,7 @@ The context file exists in two states:
 When you change repository structure:
 
 1. Update `secretary-context.json` (the stub)
-2. Update the generation functions in `setup.mjs`:
+2. Update the generation functions in `.tools/setup.mjs`:
    - `generateFolderIndex()`
    - `generateTemplateIndex()`
    - `generateRegisterIndex()`
@@ -88,7 +91,7 @@ When you change repository structure:
 
 1. Create the template file with `_` prefix
 2. Add entry to `templates` array in `secretary-context.json`
-3. Add entry to `generateTemplateIndex()` in `setup.mjs`
+3. Add entry to `generateTemplateIndex()` in `.tools/setup.mjs`
 4. Update `WORKFLOWS.md` with usage instructions
 5. Update folder README with reference
 
@@ -97,19 +100,36 @@ When you change repository structure:
 1. Create CSV file with header row
 2. Add schema to `03-registers/README.md`
 3. Add entry to `registers` array in `secretary-context.json`
-4. Add entry to `generateRegisterIndex()` in `setup.mjs`
+4. Add entry to `generateRegisterIndex()` in `.tools/setup.mjs`
 
 ### Adding New Workflows
 
 1. Document in `WORKFLOWS.md`
 2. Add to `workflows` object in `secretary-context.json`
-3. Add to `generateWorkflowGraph()` in `setup.mjs`
+3. Add to `generateWorkflowGraph()` in `.tools/setup.mjs`
 
-## Setup Script
+### Adding New CLI Tools
 
-### How It Works
+1. Copy `.tools/_template.mjs` and rename (snake-case, e.g., `my-tool.mjs`)
+2. Implement tool functionality
+3. Tool is auto-discovered by `cli.mjs` (no additional routing needed)
 
-`setup.mjs` transforms a forked repo from template state to initialized state:
+## CLI and Tools
+
+### How the CLI Works
+
+`cli.mjs` routes commands to tool scripts in the `.tools/` directory:
+
+```bash
+node cli.mjs <tool> [args...]      # Routes to .tools/<tool>.mjs
+node cli.mjs setup                 # Runs .tools/setup.mjs
+node cli.mjs validate              # Runs .tools/validate.mjs
+node cli.mjs --help                # Lists available tools
+```
+
+### Setup Tool
+
+`.tools/setup.mjs` transforms a forked repo from template state to initialized state:
 
 ```
 Template State                    Initialized State
@@ -133,18 +153,18 @@ cp -r . ../test-fork
 cd ../test-fork
 
 # Run setup
-npm run setup
+node cli.mjs setup
 
 # Validate
-npm run validate
+node cli.mjs validate
 
 # Clean up
 cd .. && rm -rf test-fork
 ```
 
-### Modifying Setup Script
+### Modifying Setup Tool
 
-Key functions to modify:
+Key functions in `.tools/setup.mjs`:
 
 | Function | Purpose |
 |----------|---------|
@@ -175,7 +195,7 @@ Key functions to modify:
 2. Make changes
 3. Update relevant documentation
 4. Update `secretary-context.json` if structure changed
-5. Test with `npm run validate`
+5. Test with `node cli.mjs validate`
 6. Open PR with description
 
 ### Updating Templates
@@ -189,7 +209,7 @@ Key functions to modify:
 
 1. Update folder/file structure
 2. Update `secretary-context.json`
-3. Update `setup.mjs` generation functions
+3. Update `.tools/setup.mjs` generation functions
 4. Update all affected READMEs
 5. Update `SECRETARY.md` if needed
 6. Bump MINOR or MAJOR version
@@ -200,18 +220,22 @@ Before releasing:
 
 - [ ] All template files have `_` prefix
 - [ ] `secretary-context.json` matches actual structure
-- [ ] `setup.mjs` generates matching context
+- [ ] `.tools/setup.mjs` generates matching context
 - [ ] All internal links work
 - [ ] Navigation breadcrumbs present in READMEs
 - [ ] `WORKFLOWS.md` covers all templates
-- [ ] `npm run validate` passes
+- [ ] `node cli.mjs validate` passes
 - [ ] Version updated in `VERSION`, `package.json`, `secretary-context.json`
 
 ## Repository Architecture
 
 ```
 /
-├── setup.mjs                    # Initialization script
+├── cli.mjs                      # CLI entrypoint
+├── .tools/                      # Tool scripts
+│   ├── setup.mjs                # Setup/initialization tool
+│   ├── validate.mjs             # Validation tool
+│   └── _template.mjs            # Template for new tools
 ├── package.json                 # Script runner
 ├── VERSION                      # Semantic version
 ├── secretary-context.json       # AI context (stub)
@@ -242,7 +266,7 @@ When making changes, verify experience for all personas:
 - Is it obvious this is designed for AI agents?
 
 ### 2. New User (setting up)
-- Does `npm run setup` work smoothly?
+- Does `node cli.mjs setup` work smoothly?
 - Are error messages helpful?
 - Is the path to AI agent usage clear?
 
