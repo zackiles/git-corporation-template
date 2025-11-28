@@ -19,7 +19,7 @@
 |--------|---------------|-------------|
 | **State** | Uninitialized | Initialized |
 | **`.initialized` marker** | Absent | Present |
-| **`AGENTS.md`** | Generic placeholders | Populated with corporation name/number |
+| **`AGENTS.md`** | Maintainer-focused | Secretary-focused |
 | **`secretary-context.json`** | Stub (nulls) | Populated |
 | **`CORPORATION.md`** | Placeholder | Filled in |
 | **`README.md`** | GitHub-focused | Secretary-focused |
@@ -115,6 +115,7 @@ When you change repository structure:
 Template State                    Initialized State
 ─────────────────                 ─────────────────
 README.md (GitHub-focused)   →    README.md (secretary-focused)
+AGENTS.md (maintainer)       →    AGENTS.md (secretary)
 MAINTAINERS.md               →    .template-archive/MAINTAINERS.md
 FORK-SETUP.md                →    .template-archive/FORK-SETUP.md
 .template-repo               →    .template-archive/.template-repo
@@ -152,6 +153,7 @@ Key functions to modify:
 | `generateRegisterIndex()` | Register list |
 | `generateWorkflowGraph()` | Workflow definitions |
 | `generateSecretaryReadme()` | Post-setup README |
+| `generateAgentsFile()` | Secretary-focused AGENTS.md |
 | `generateCorporationFile()` | CORPORATION.md content |
 | `interactiveSetup()` | Setup wizard flow |
 

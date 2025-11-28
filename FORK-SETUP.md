@@ -112,9 +112,11 @@ If you prefer not to use the setup script:
 
 3. Fill in `CORPORATION.md` with your details
 
-4. Update `AGENTS.md`:
-   - Replace `[CORPORATION_NAME]` with your corporation's legal name
-   - Replace `[CORPORATION_NUMBER]` with your federal corporation number
+4. Replace `AGENTS.md` with secretary-focused content:
+   - The template contains maintainer instructions (not relevant for your corporation)
+   - Copy the secretary-focused content from `setup.mjs` (`generateAgentsFile` function)
+   - Replace `[Corporation Name]` with your corporation's legal name
+   - Replace `[Corporation Number]` with your federal corporation number
 
 5. Update `secretary-context.json`:
    - Set `initialized` to `true`
