@@ -84,7 +84,7 @@ Keep both the JSON file and the generator functions in sync.
 
 ### Add a New CLI Tool
 
-1. Copy `.tools/_template.mjs` and rename (snake-case, e.g., `my-tool.mjs`)
+1. Copy `.tools/_template.mjs` and rename (kebab-case, e.g., `my-tool.mjs`)
 2. Implement tool functionality
 3. Tool is auto-discovered by `cli.mjs`
 
