@@ -110,7 +110,7 @@ When you change repository structure:
 
 ### Adding New CLI Tools
 
-1. Copy `.tools/_template.mjs` and rename (snake-case, e.g., `my-tool.mjs`)
+1. Copy `.tools/_template.mjs` and rename (kebab-case, e.g., `my-tool.mjs`)
 2. Implement tool functionality
 3. Tool is auto-discovered by `cli.mjs` (no additional routing needed)
 
