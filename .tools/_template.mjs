@@ -5,7 +5,7 @@
  * 
  * Copy this file and rename it to create a new tool.
  * Remove the underscore prefix (e.g., my-tool.mjs).
- * Tool names should use snake-case (e.g., my-tool.mjs).
+ * Tool names should use kebab-case (e.g., my-tool.mjs).
  * 
  * Usage:
  *   node cli.mjs <tool-name> [args...]
