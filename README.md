@@ -4,6 +4,12 @@
 
 A Git-based minute book template designed for AI agents (Cursor, Claude Code, or any tool supporting `AGENTS.md`) to autonomously manage corporate governance for Canadian federal corporations.
 
+> [!CAUTION]
+> **Please read before using:**
+> 1. **Jurisdiction**: This template is currently designed only for **Canadian federal corporations (CBCA)** with **Ontario** extra-provincial registration. Other jurisdictions are not yet supported.
+> 2. **Not legal advice**: This repository is experimental and does not constitute legal advice. We make no claims or warranties. Consult a qualified lawyer for your specific corporate needs.
+> 3. **Early development**: This project is under active early development and is likely to change significantly. Expect breaking changes.
+
 [![Template Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](VERSION)
 
 ---
