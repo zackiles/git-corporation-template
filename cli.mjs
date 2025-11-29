@@ -23,7 +23,7 @@ function getTools() {
   if (!existsSync(TOOLS_DIR)) return [];
   
   return readdirSync(TOOLS_DIR)
-    .filter(f => f.endsWith('.mjs') && !f.startsWith('_'))
+    .filter(f => f.endsWith('.mjs') && !f.startsWith('_') && f !== 'README.mjs')
     .map(f => f.replace('.mjs', ''));
 }
 
