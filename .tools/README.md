@@ -19,13 +19,13 @@ node cli.mjs <tool-name> [args...]
 
 ## Creating New Tools
 
-1. Copy `_template.mjs` and rename it (use snake-case, e.g., `my-tool.mjs`)
+1. Copy `_template.mjs` and rename it (use kebab-case, e.g., `my-tool.mjs`)
 2. Implement your tool functionality
 3. The tool is auto-discovered by `cli.mjs`
 
 ### Tool Naming
 
-- Use snake-case for filenames (e.g., `my-tool.mjs`)
+- Use kebab-case for filenames (e.g., `my-tool.mjs`)
 - Files prefixed with `_` are ignored (templates/internal)
 - Extension must be `.mjs`
 
