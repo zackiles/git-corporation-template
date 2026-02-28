@@ -9,6 +9,7 @@ This folder contains key commercial contracts, intellectual property documentati
 - **key-contracts/** - Major commercial agreements (MSAs, NDAs)
 - **ip/** - IP assignments and registrations
 - **hr/** - Employee IP and confidentiality agreements
+- **refurbishing/** - E-waste recycling and ITAD provider references
 
 ## What Belongs Here
 
