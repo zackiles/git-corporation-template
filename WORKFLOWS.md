@@ -39,13 +39,15 @@ review-incorporation-docs
          ↓
 record-initial-director
          ↓
+create-initial-directors-resolution
+         ↓
 create-organizational-resolution
          ↓
     ┌────┴────┐
     ↓         ↓
 appoint-officers  issue-founder-shares
-    ↓
-setup-banking
+    ↓              ↓
+setup-banking  general-share-authorization
 ```
 
 ### Step 1: Review Incorporation Documents
@@ -83,35 +85,61 @@ D001,"[Director Name]","[Address]",[Incorporation Date],,
 
 ---
 
+### Step 2b: Create Initial Directors Resolution
+
+**Action**: Acknowledge the initial director(s) and confirm authority to organize the Corporation.
+
+**Steps**:
+1. Copy `01-formation/organizational-resolutions/_initial-directors-resolution-template.md`
+2. Save as `01-formation/organizational-resolutions/R[YYYY]-01-initial-directors.md`
+3. Fill in all placeholders
+
+**Template**: `01-formation/organizational-resolutions/_initial-directors-resolution-template.md`
+
+---
+
 ### Step 3: Create Organizational Resolution
 
 **Action**: Create the "birth certificate" resolution that:
 - Adopts bylaws
-- Appoints officers (President, Secretary, Treasurer)
+- Appoints officers (President, Secretary, Treasurer, CEO, etc.)
 - Sets fiscal year end
 - Authorizes banking
 - Authorizes share issuance to founders
+- Establishes registers
+- Authorizes extra-provincial registration
+- Authorizes CRA business number application
 
 **Steps**:
 1. **Prepare bylaws first**:
    - Copy `01-formation/bylaws/_001-general-by-law-template.md` → `01-formation/bylaws/001-general-by-law.md`
    - Fill in placeholders with values from `CORPORATION.md`:
      - `[CORPORATION NAME]` → Corporation legal name
-     - `[NUMBER]` for directors → typically `1` minimum, `5` maximum for small corps
-     - `[NUMBER]` for notice periods → typically `48` hours for directors, `21` days for shareholders
-     - `[PERCENTAGE]` for quorum → typically `50`% 
-     - `[DATE]` for fiscal year → from `CORPORATION.md`
+     - `[MINIMUM NUMBER]` / `[MAXIMUM NUMBER]` for directors → typically `1` minimum, `5` maximum
+     - `[QUORUM PERCENTAGE]` → typically `51`%
+     - `[FISCAL YEAR END DATE]` → from `CORPORATION.md`
 
 2. **Create organizational resolution**:
    - Copy `01-formation/organizational-resolutions/_organizational-resolution-template.md`
-   - Save as `01-formation/organizational-resolutions/R[YYYY]-01-organizational.md`
+   - Save as `01-formation/organizational-resolutions/R[YYYY]-02-organizational.md`
    - Fill in all placeholders from `CORPORATION.md`
 
-3. **Create branch and PR**:
+3. **Create founder share issuance resolution**:
+   - Copy `01-formation/organizational-resolutions/_share-issuance-resolution-template.md`
+   - Save as `01-formation/organizational-resolutions/R[YYYY]-03-founder-share-issuance.md`
+
+4. **Create general share authorization** (recommended):
+   - Copy `01-formation/organizational-resolutions/_general-share-authorization-template.md`
+   - Save as `01-formation/organizational-resolutions/R[YYYY]-04-general-share-authorization.md`
+
+5. **Create branch and PR**:
    - Branch: `corp/organizational-resolution-YYYY-MM`
    - Commit message: `[corp] Organizational resolution - adopt bylaws, appoint officers, authorize shares`
 
-**Template**: `01-formation/organizational-resolutions/_organizational-resolution-template.md`
+**Templates**:
+- `01-formation/organizational-resolutions/_organizational-resolution-template.md`
+- `01-formation/organizational-resolutions/_share-issuance-resolution-template.md`
+- `01-formation/organizational-resolutions/_general-share-authorization-template.md`
 
 **Branch**: `corp/organizational-resolution-YYYY-MM`
 
@@ -319,9 +347,10 @@ O003,"[Name]",Treasurer,[Date],,R[Year]-01
 1. Verify authorized share capital permits issuance
 2. Create issuance folder: `05-capitalization/share-issuances/YYYY-slug/`
 3. Prepare documents:
-   - Board resolution authorizing issuance
+   - Share issuance resolution (from template)
    - Subscription agreement (from template)
-   - Share certificate
+   - Share certificate (from template)
+   - Issuance summary (from template)
 4. Create branch: `corp/issuance-[description]-YYYY-MM`
 5. Update registers:
    - `03-registers/shareholders-register.csv`
@@ -332,8 +361,10 @@ O003,"[Name]",Treasurer,[Date],,R[Year]-01
 9. Store signed documents in `09-binary-artifacts/05-capitalization/`
 
 **Templates**:
+- [`_share-issuance-resolution-template.md`](01-formation/organizational-resolutions/_share-issuance-resolution-template.md)
 - [`_share-subscription-agreement-template.md`](05-capitalization/share-issuances/0000-templates/_share-subscription-agreement-template.md)
 - [`_share-certificate-template.md`](05-capitalization/share-issuances/0000-templates/_share-certificate-template.md)
+- [`_issuance-summary-template.md`](05-capitalization/share-issuances/0000-templates/_issuance-summary-template.md)
 - [`_board-resolution-template.md`](04-meetings-and-resolutions/board/0000-templates/_board-resolution-template.md)
 
 **Registers affected**: `shareholders-register.csv`, `securities-register.csv`
@@ -518,10 +549,20 @@ O003,"[Name]",Treasurer,[Date],,R[Year]-01
 |----------|----------|
 | Share Subscription Agreement | `05-capitalization/share-issuances/0000-templates/_share-subscription-agreement-template.md` |
 | Share Certificate | `05-capitalization/share-issuances/0000-templates/_share-certificate-template.md` |
+| Issuance Summary | `05-capitalization/share-issuances/0000-templates/_issuance-summary-template.md` |
 | Closing Agenda | `05-capitalization/share-issuances/0000-templates/_closing-agenda-template.md` |
 | Option Grant | `05-capitalization/options-and-ESOP/_option-grant-template.md` |
 | ESOP Plan | `05-capitalization/options-and-ESOP/_esop-plan-template.md` |
 | Cap Table | `05-capitalization/cap-table/_cap-table-template.md` |
+
+### Formation & Organization
+| Template | Location |
+|----------|----------|
+| Initial Directors Resolution | `01-formation/organizational-resolutions/_initial-directors-resolution-template.md` |
+| Organizational Resolution | `01-formation/organizational-resolutions/_organizational-resolution-template.md` |
+| Share Issuance Resolution | `01-formation/organizational-resolutions/_share-issuance-resolution-template.md` |
+| General Share Authorization | `01-formation/organizational-resolutions/_general-share-authorization-template.md` |
+| Ontario Registration (Formation) | `01-formation/ontario-extra-provincial/_ontario-registration-template.md` |
 
 ### Policies & Agreements
 | Template | Location |
@@ -546,9 +587,15 @@ O003,"[Name]",Treasurer,[Date],,R[Year]-01
 | IP Assignment | `08-commercial-and-ip/ip/assignments/_ip-assignment-template.md` |
 | Employee IP & Confidentiality | `08-commercial-and-ip/hr/_employee-ip-and-confidentiality-template.md` |
 
+### Regulatory
+| Template | Location |
+|----------|----------|
+| Ontario Registration (Filing) | `06-regulatory-filings/ontario/extra-provincial/_initial-registration-template.md` |
+
 ### Meta
 | Template | Location |
 |----------|----------|
+| Corporate Document Checklist | `_TODO-template.md` |
 | PR Description | `99-meta/templates/_pull-request-description-template.md` |
 | Changelog Entry | `99-meta/templates/_changelog-entry-template.md` |
 

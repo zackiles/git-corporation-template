@@ -134,12 +134,20 @@ When updating registers, always verify:
 
 | Task | Template Location |
 |------|-------------------|
+| Initial directors resolution | `01-formation/organizational-resolutions/_initial-directors-resolution-template.md` |
+| Organizational resolution | `01-formation/organizational-resolutions/_organizational-resolution-template.md` |
+| Share issuance resolution | `01-formation/organizational-resolutions/_share-issuance-resolution-template.md` |
+| General share authorization | `01-formation/organizational-resolutions/_general-share-authorization-template.md` |
 | Board resolution | `04-meetings-and-resolutions/board/0000-templates/_board-resolution-template.md` |
 | Board meeting minutes | `04-meetings-and-resolutions/board/0000-templates/_board-meeting-minutes-template.md` |
 | Shareholder resolution | `04-meetings-and-resolutions/shareholders/0000-templates/_shareholder-resolution-template.md` |
 | Share subscription | `05-capitalization/share-issuances/0000-templates/_share-subscription-agreement-template.md` |
 | Share certificate | `05-capitalization/share-issuances/0000-templates/_share-certificate-template.md` |
+| Issuance summary | `05-capitalization/share-issuances/0000-templates/_issuance-summary-template.md` |
 | Option grant | `05-capitalization/options-and-ESOP/_option-grant-template.md` |
+| Ontario registration (formation) | `01-formation/ontario-extra-provincial/_ontario-registration-template.md` |
+| Ontario registration (filing) | `06-regulatory-filings/ontario/extra-provincial/_initial-registration-template.md` |
+| Corporate checklist | `_TODO-template.md` |
 
 See [WORKFLOWS.md](WORKFLOWS.md) for complete template index.
 
