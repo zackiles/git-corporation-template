@@ -157,9 +157,9 @@ D001,"[Director Name]","[Address]",[Incorporation Date],,
 **Update** `03-registers/officers-register.csv`:
 ```csv
 id,full_name,position,appointment_date,cessation_date,appointing_resolution
-O001,"[Name]",President,[Date],,R[Year]-01
-O002,"[Name]",Secretary,[Date],,R[Year]-01
-O003,"[Name]",Treasurer,[Date],,R[Year]-01
+O001,"[Name]",President,[Date],,R[YYYY]-02
+O002,"[Name]",Secretary,[Date],,R[YYYY]-02
+O003,"[Name]",Treasurer,[Date],,R[YYYY]-02
 ```
 
 **Note**: One person can hold multiple officer positions.
